@@ -1,0 +1,34 @@
+[include]
+    path = .gitconfig.id
+[alias]
+    co = checkout
+    coc = checkout .
+    cob = checkout -b
+
+    ci = commit
+    cif = "!f() { vim $1; git ci $1; }; f"
+    cia = commit -a
+    cam = commit --amend
+    cama = commit --amend -a
+
+    s = show --color
+    sw = show --color --color-words='[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+'
+    sf = show --color -C --stat
+
+    ps = push
+    psu = push -u
+    pso = push origin
+    psf = push -f
+    psuf = push -uf
+
+    lg = log -m --branches --graph --abbrev-commit --decorate --date=relative --pretty=tformat:'%C(bold blue)%h%C(reset)%C(auto)%d -%C(reset) %C(auto)%s%C(reset) %C(white)[a:%an] [c:%cn]%C(reset) %C(green)(%ar)%C(reset)'
+    d = difftool
+    change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
+[diff]
+    tool = vimdiff
+[difftool]
+    prompt = false
+[core]
+    editor = /usr/bin/vim
+[credential]
+    helper = cache --timeout=2419200
