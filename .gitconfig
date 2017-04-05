@@ -1,28 +1,120 @@
 [include]
     path = ~/.gitconfig.id
 [alias]
-    co = checkout
-    coc = checkout .
-    cob = checkout -b
+    a = add
+    aa = add --all
+    ai = add -i
 
-    ci = commit
-    cif = "!f() { vim $1; git ci $1; }; f"
-    cia = commit -a
-    cam = commit --amend
-    cama = commit --amend -a
+    ap = apply
+    as = apply --stat
+    ac = apply --check
 
-    s = show --color
-    sw = show --color --color-words='[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+'
-    sf = show --color -C --stat
+    b = branch
+    ba = branch -a
+    bd = branch -d
+    br = branch -r
+
+    c = commit
+    ca = commit -a
+    cf = "!f() { vim $1; git ci $1; }; f"
+    cm = commit -m
+    cam = commit -am
+    cd = commit --amend
+    cad = commit -a --amend
+
+    d = diff
+    dc = diff --cached
+    dt = difftool
+    dlc = difftool --cached
+    dk = diff --check
+    dp = diff --patience
+    dck = diff --cached --check
+
+    f = fetch
+    fo = fetch origin
+    fu = fetch upstream
+
+    g = grep -p
+
+    l = log --oneline
+    ll = log --oneline --graph --decorate
+    lg = log -m --branches --graph --abbrev-commit --decorate --date=relative --pretty=tformat:'%C(bold blue)%h%C(reset)%C(auto)%d -%C(reset) %C(auto)%s%C(reset) %C(white)[a:%an] [c:%cn]%C(reset) %C(green)(%ar)%C(reset)'
+
+    ls = ls-files
+    lsf = "!git ls-files | grep -i"
+
+    m = merge
+    ma = merge --abort
+    mc = merge --continue
+    ms = merge --skip
+
+
+    o = checkout
+    ob = checkout -b
+    oc = checkout .
+
+    pr = prune -v
 
     ps = push
-    psu = push -u
-    pso = push origin
     psf = push -f
-    psuf = push -uf
+    psa = push --all
+    psaf = push --all -f
 
-    lg = log -m --branches --graph --abbrev-commit --decorate --date=relative --pretty=tformat:'%C(bold blue)%h%C(reset)%C(auto)%d -%C(reset) %C(auto)%s%C(reset) %C(white)[a:%an] [c:%cn]%C(reset) %C(green)(%ar)%C(reset)'
-    d = difftool
+    pl = pull
+    plo = pull origin
+    plum = pull upstream master
+
+    pb = pull --rebase
+
+    rb = rebase
+    rba = rebase --abort
+    rbc = rebase --continue
+    rbi = rebase --interactive
+    rbs = rebase --skip
+
+    re = reset
+    rh = reset HEAD
+    reh = reset --hard
+    rem = reset --mixed
+    res = reset --soft
+    rehh = reset --hard HEAD
+    remh = reset --mixed HEAD
+    resh = reset --soft HEAD
+
+    r = remote
+    ra = remote add
+    rr = remote rm
+    rv = remote -v
+    rm = remote rename
+    rp = remote prune
+    rs = remote show
+    rao = remote add origin
+    rau = remote add upstream
+    rso = remote show origin
+    rsu = remote show upstream
+    rpo = remote prune origin
+    rpu = remote prune upstream
+
+    s = status
+    sb = status -s -b
+
+    sa = stash apply
+    sc = stash clear
+    sd = stash drop
+    sl = stash list
+    sp = stash pop
+    ss = stash save
+    sw = stash show
+
+    w = show --color
+    ws = show --color -C --stat
+
+    ours = "!f() { git checkout --ours $@ && git add $@; }; f"
+    theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+
+    whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
+    whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+
     change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
 [diff]
     tool = vimdiff
@@ -30,5 +122,9 @@
     prompt = false
 [core]
     editor = /usr/bin/vim
+    whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 [credential]
     helper = cache --timeout=2419200
+[rerere]
+    enabled = 1
+    autoupdate = 1
