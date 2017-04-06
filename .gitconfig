@@ -36,8 +36,7 @@
 
     g = grep -p
 
-    l = log --oneline
-    ll = log --oneline --graph --decorate
+    l = log --oneline --graph --decorate
     lg = log -m --branches --graph --abbrev-commit --decorate --date=relative --pretty=tformat:'%C(bold blue)%h%C(reset)%C(auto)%d -%C(reset) %C(auto)%s%C(reset) %C(white)[a:%an] [c:%cn]%C(reset) %C(green)(%ar)%C(reset)'
 
     ls = ls-files
