@@ -62,8 +62,7 @@
     pl = pull
     plo = pull origin
     plum = pull upstream master
-
-    pb = pull --rebase
+    plb = pull --rebase
 
     rb = rebase
     rba = rebase --abort
