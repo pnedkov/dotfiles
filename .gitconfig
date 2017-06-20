@@ -17,6 +17,7 @@
     c = commit
     ca = commit -a
     cf = "!f() { vim $1; git ci $1; }; f"
+    cp = commit -p
     cm = commit -m
     cam = commit -am
     cd = commit --amend
