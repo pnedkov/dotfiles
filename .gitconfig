@@ -25,6 +25,7 @@
 
     d = diff
     dc = diff --cached
+    ds = diff --staged
     dt = difftool
     dlc = difftool --cached
     dk = diff --check
