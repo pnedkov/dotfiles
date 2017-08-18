@@ -7,8 +7,8 @@
     ap = add --patch
 
     ay = apply
-    as = apply --stat
-    ac = apply --check
+    ays = apply --stat
+    ayc = apply --check
 
     b = branch
     ba = branch -a
