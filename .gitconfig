@@ -4,8 +4,9 @@
     a = add
     aa = add --all
     ai = add -i
+    ap = add --patch
 
-    ap = apply
+    ay = apply
     as = apply --stat
     ac = apply --check
 
