@@ -52,7 +52,6 @@
     mc = merge --continue
     ms = merge --skip
 
-
     o = checkout
     ob = checkout -b
     oc = checkout .
@@ -66,8 +65,8 @@
 
     pl = pull
     plo = pull origin
-    plum = pull upstream master
     plb = pull --rebase
+    plum = pull upstream master
 
     rb = rebase
     rba = rebase --abort
