@@ -73,6 +73,7 @@
     rbc = rebase --continue
     rbi = rebase --interactive
     rbs = rebase --skip
+    rbh = "!f() { git rebase -i HEAD~$1; }; f"
 
     re = reset
     rh = reset HEAD
