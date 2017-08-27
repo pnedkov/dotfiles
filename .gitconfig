@@ -62,6 +62,7 @@
     psf = push -f
     psa = push --all
     psaf = push --all -f
+    psum = push upstream master
 
     pl = pull
     plo = pull origin
