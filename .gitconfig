@@ -132,3 +132,6 @@
 [rerere]
     enabled = 1
     autoupdate = 1
+[diff "ansible-vault"]
+    textconv = ansible-vault view
+    cachetextconv = true
