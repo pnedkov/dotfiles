@@ -1,7 +1,7 @@
 set mouse=r
 
 syntax on
-colorscheme ron
+colorscheme koehler
 
 set autoindent
 set expandtab
