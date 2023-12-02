@@ -44,9 +44,9 @@ if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
 fi
 
 # start tmux automatically
-if [ -x "$(command -v tmux)" ] && [ -z "${TMUX}" ]; then
-    exec tmux new-session -A -s ${USER} >/dev/null 2>&1
-fi
+#if [ -x "$(command -v tmux)" ] && [ -z "${TMUX}" ]; then
+#    exec tmux new-session -A -s ${USER} >/dev/null 2>&1
+#fi
 
 # enable forward search with Ctrl-S
 stty -ixon
