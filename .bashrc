@@ -7,6 +7,7 @@
 
 # user-specific binaries
 [[ -d ~/.bin && -z $TMUX ]] && PATH=${PATH}:~/.bin
+PATH=${HOME}/.local/bin:$PATH
 
 # aliases
 alias ls='ls --color=auto'
