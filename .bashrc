@@ -55,3 +55,5 @@ genpass() {
     [[ -z "$1" ]] && l=16 || l=$1
     openssl rand -base64 4096 | tr -cd '[[:alnum:]]' | head -c $l ; echo
 }
+
+printf '\033[2 q'
