@@ -23,20 +23,66 @@ fi
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip -color=auto'
-alias g='git'
 alias dmesg='dmesg -L=always'
 
 # exports
 export TERM=screen-256color
-export EDITOR=vim
 export LESS='-Q -F -R --use-color -Dd+r$Du+b$'
 export MANPAGER="less -R --use-color -Dd+r -Du+b"
 export MANROFFOPT="-P -c"
 
-# fix git-completion for the 'g' alias
-if [ -f /usr/share/git/completion/git-completion.bash ]; then
-    source /usr/share/git/completion/git-completion.bash
-    __git_complete g __git_main
+# neovim
+if [ -x $(command -v nvim) ]; then
+  alias nv='nvim'
+  alias vimdiff='nvim -d'
+  export EDITOR=nvim
+else
+  export EDITOR=vim
+fi
+
+# aws
+if [ -x $(command -v aws) ]; then
+  alias whoaws='aws sts get-caller-identity'
+fi
+
+# git
+if [ -x $(command -v git) ]; then
+  alias g='git'
+  git_compl_file="/usr/share/git/completion/git-completion.bash"
+  if [ -f "$git_compl_file" ]; then
+    source "$git_compl_file"
+    complete -o bashdefault -o default -o nospace -F __git_wrap__git_main g
+  fi
+fi
+
+# docker
+if [ -x $(command -v docker) ]; then
+  alias d='docker'
+  docker_compl_file="/usr/share/bash-completion/completions/docker"
+  if [ -f "$docker_compl_file" ]; then
+    source "$docker_compl_file"
+    complete -o default -F __start_docker d
+  fi
+fi
+
+# kubectl
+if [ -x $(command -v kubectl) ]; then
+  alias k='kubectl'
+  kubectl_compl_file="/usr/share/bash-completion/completions/kubectl"
+  if [ -f "$kubectl_compl_file" ]; then
+    source "$kubectl_compl_file"
+    complete -o default -F __start_kubectl k
+  fi
+fi
+
+# terraform
+if [ -x $(command -v terraform) ]; then
+  alias t='terraform'
+  terraform_compl_file="/usr/share/bash-completion/completions/terraform"
+  if [ -f "$terraform_compl_file" ]; then
+    source "$terraform_compl_file"
+    complete -C '/usr/bin/terraform' t
+  fi
 fi
 
 # set the primary prompt (PS1)
