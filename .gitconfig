@@ -112,6 +112,8 @@
 	ss = stash save
 	sw = stash show
 
+	tags = tag -n99
+
 	w = show --color
 	ws = show --color -C --stat
 
