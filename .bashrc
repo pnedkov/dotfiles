@@ -17,7 +17,7 @@ alias ip='ip -color=auto'
 alias g='git'
 
 # exports
-export TERM=xterm-256color
+export TERM=screen-256color
 export EDITOR=vim
 export LESS='-Q -F -R --use-color -Dd+r$Du+b$'
 export MANPAGER="less -R --use-color -Dd+r -Du+b"
