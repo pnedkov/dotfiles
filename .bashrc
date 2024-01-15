@@ -6,8 +6,7 @@
 [[ $- != *i* ]] && return
 
 # user-specific binaries
-[[ -d ~/.bin && -z $TMUX ]] && PATH=${PATH}:~/.bin
-PATH=${HOME}/.local/bin:$PATH
+[[ -d ~/.bin && -z $TMUX && ${PATH} != *"${HOME}/.bin"* ]] && PATH=${PATH}:${HOME}/.bin
 
 # aliases
 alias ls='ls --color=auto'
