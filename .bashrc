@@ -9,11 +9,22 @@
 [[ -d ~/.bin && -z $TMUX && ${PATH} != *"${HOME}/.bin"* ]] && PATH=${PATH}:${HOME}/.bin
 
 # aliases
-alias ls='ls --color=auto'
+if [ -x $(command -v eza) ]; then
+  alias e="eza -g --git --time-style '+%Y %b %e %H:%M'"
+  alias el="eza -lg --git --time-style '+%Y %b %e %H:%M'"
+  alias ela="eza -lga --git --time-style '+%Y %b %e %H:%M'"
+  alias et="eza --tree"
+  alias ls="e"
+  alias ll="el"
+else
+  alias ls='ls --color=auto'
+  alias ll='ls -l'
+fi
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip -color=auto'
 alias g='git'
+alias dmesg='dmesg -L=always'
 
 # exports
 export TERM=screen-256color
