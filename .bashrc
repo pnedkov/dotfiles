@@ -30,21 +30,21 @@ if [ -f /usr/share/git/completion/git-completion.bash ]; then
 fi
 
 # set the primary prompt (PS1)
-if [ `id -u` = 0 ] ; then
-    PS1="\[\033[38;5;12m\][\[$(tput sgr0)\]\[\033[38;5;9m\]\u\[$(tput sgr0)\]\[\033[38;5;12m\]@\[$(tput sgr0)\]\[\033[38;5;7m\]\h\[$(tput sgr0)\]\[\033[38;5;12m\]]\[$(tput sgr0)\]\[\033[38;5;15m\]: \[$(tput sgr0)\]\[\033[38;5;7m\]\w\[$(tput sgr0)\]\[\033[38;5;12m\]>\[$(tput sgr0)\]\[\033[38;5;9m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
+if [ $(id -u) = 0 ]; then
+  PS1="\[\033[38;5;12m\][\[$(tput sgr0)\]\[\033[38;5;9m\]\u\[$(tput sgr0)\]\[\033[38;5;12m\]@\[$(tput sgr0)\]\[\033[38;5;7m\]\h\[$(tput sgr0)\]\[\033[38;5;12m\]]\[$(tput sgr0)\]\[\033[38;5;15m\]: \[$(tput sgr0)\]\[\033[38;5;7m\]\w\[$(tput sgr0)\]\[\033[38;5;12m\]>\[$(tput sgr0)\]\[\033[38;5;9m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
 else
-    PS1="\[\033[38;5;12m\][\[$(tput sgr0)\]\[\033[38;5;10m\]\u\[$(tput sgr0)\]\[\033[38;5;12m\]@\[$(tput sgr0)\]\[\033[38;5;7m\]\h\[$(tput sgr0)\]\[\033[38;5;12m\]]\[$(tput sgr0)\]\[\033[38;5;15m\]: \[$(tput sgr0)\]\[\033[38;5;7m\]\w\[$(tput sgr0)\]\[\033[38;5;12m\]>\[$(tput sgr0)\]\[\033[38;5;10m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
+  PS1="\[\033[38;5;12m\][\[$(tput sgr0)\]\[\033[38;5;10m\]\u\[$(tput sgr0)\]\[\033[38;5;12m\]@\[$(tput sgr0)\]\[\033[38;5;7m\]\h\[$(tput sgr0)\]\[\033[38;5;12m\]]\[$(tput sgr0)\]\[\033[38;5;15m\]: \[$(tput sgr0)\]\[\033[38;5;7m\]\w\[$(tput sgr0)\]\[\033[38;5;12m\]>\[$(tput sgr0)\]\[\033[38;5;10m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
 fi
 
 # start bash-git-promp if available
 if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
-    GIT_PROMPT_ONLY_IN_REPO=1
-    GIT_PROMPT_SHOW_UPSTREAM=1
-    GIT_PROMPT_THEME=Single_line_NoExitState
-    source "$HOME/.bash-git-prompt/gitprompt.sh"
+  GIT_PROMPT_ONLY_IN_REPO=1
+  GIT_PROMPT_SHOW_UPSTREAM=1
+  GIT_PROMPT_THEME=Single_line_NoExitState
+  source "$HOME/.bash-git-prompt/gitprompt.sh"
 fi
 
-# start tmux automatically
+# start tmux automatically - not the best idea after all
 #if [ -x "$(command -v tmux)" ] && [ -z "${TMUX}" ]; then
 #    exec tmux new-session -A -s ${USER} >/dev/null 2>&1
 #fi
@@ -53,8 +53,9 @@ fi
 stty -ixon
 
 genpass() {
-    [[ -z "$1" ]] && l=16 || l=$1
-    openssl rand -base64 4096 | tr -cd '[[:alnum:]]' | head -c $l ; echo
+  [[ -z "$1" ]] && l=16 || l=$1
+  openssl rand -base64 4096 | tr -cd '[[:alnum:]]' | head -c $l
+  echo
 }
 
 printf '\033[2 q'
