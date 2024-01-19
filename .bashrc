@@ -33,6 +33,15 @@ if [ -x $(command -v eza) ]; then
   alias et="eza --tree"
 fi
 
+# pacman
+if [ $(id -u) = 0 ]; then
+  alias pacup="pacman -Syyu"
+  alias pacsearch="pacman -Ss"
+  alias pacinfo="pacman -Si"
+  alias pacowns="pacman -Qo"
+  alias paclist="pacman -Ql"
+fi
+
 # neovim
 if [ -x $(command -v nvim) ]; then
   alias nv='nvim'
