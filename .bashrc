@@ -8,36 +8,36 @@
 # user-specific binaries
 [[ -d ~/.bin && -z $TMUX && ${PATH} != *"${HOME}/.bin"* ]] && PATH=${PATH}:${HOME}/.bin
 
-# aliases
-if [ -x $(command -v eza) ]; then
-  alias e="eza -g --git --time-style '+%Y %b %e %H:%M'"
-  alias el="eza -lg --git --time-style '+%Y %b %e %H:%M'"
-  alias ela="eza -lga --git --time-style '+%Y %b %e %H:%M'"
-  alias et="eza --tree"
-  alias ls="e"
-  alias ll="el"
-else
-  alias ls='ls --color=auto'
-  alias ll='ls -l'
-fi
-alias grep='grep --color=auto'
-alias diff='diff --color=auto'
-alias ip='ip -color=auto'
-alias dmesg='dmesg -L=always'
-
 # exports
 export TERM=screen-256color
 export LESS='-Q -F -R --use-color -Dd+r$Du+b$'
 export MANPAGER="less -R --use-color -Dd+r -Du+b"
 export MANROFFOPT="-P -c"
+export EDITOR=vim
+
+# aliases
+alias ls='ls --color=auto'
+alias ll='ls -l'
+alias grep='grep --color=auto'
+alias diff='diff --color=auto'
+alias ip='ip -color=auto'
+alias dmesg='dmesg -L=always'
+
+# eza
+if [ -x $(command -v eza) ]; then
+  alias ls="e"
+  alias ll="el"
+  alias e="eza -g --git --time-style '+%Y %b %e %H:%M'"
+  alias el="eza -lg --git --time-style '+%Y %b %e %H:%M'"
+  alias ela="eza -lga --git --time-style '+%Y %b %e %H:%M'"
+  alias et="eza --tree"
+fi
 
 # neovim
 if [ -x $(command -v nvim) ]; then
   alias nv='nvim'
   alias vimdiff='nvim -d'
   export EDITOR=nvim
-else
-  export EDITOR=vim
 fi
 
 # aws
@@ -114,4 +114,12 @@ genpass() {
   echo
 }
 
+# set cursor
+# 0 -> blinking block
+# 1 -> blinking block (default)
+# 2 -> steady block
+# 3 -> blinking underline
+# 4 -> steady underline
+# 5 -> blinking bar (xterm)
+# 6 -> steady bar (xterm)
 printf '\033[2 q'
