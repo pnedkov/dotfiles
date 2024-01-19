@@ -129,7 +129,6 @@
 [difftool]
 	prompt = false
 [core]
-	editor = /usr/bin/vim
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 [credential]
 	helper = cache --timeout=2419200
