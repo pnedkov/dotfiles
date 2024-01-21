@@ -16,6 +16,7 @@ export MANROFFOPT="-P -c"
 export EDITOR=vim
 
 # aliases
+alias ..='cd ..'
 alias ls='ls --color=auto'
 alias ll='ls -l'
 alias grep='grep --color=auto'
