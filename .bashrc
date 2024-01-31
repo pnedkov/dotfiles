@@ -25,7 +25,7 @@ alias ip='ip -color=auto'
 alias dmesg='dmesg -L=always'
 
 # eza
-if [ -x $(command -v eza) ]; then
+if [ -x "$(command -v eza)" ]; then
   alias ls="e"
   alias ll="el"
   alias e="eza -g --git --time-style '+%Y %b %e %H:%M'"
@@ -44,19 +44,19 @@ if [ $(id -u) = 0 ]; then
 fi
 
 # neovim
-if [ -x $(command -v nvim) ]; then
+if [ -x "$(command -v nvim)" ]; then
   alias nv='nvim'
   alias vimdiff='nvim -d'
   export EDITOR=nvim
 fi
 
 # aws
-if [ -x $(command -v aws) ]; then
+if [ -x "$(command -v aws)" ]; then
   alias whoaws='aws sts get-caller-identity'
 fi
 
 # git
-if [ -x $(command -v git) ]; then
+if [ -x "$(command -v git)" ]; then
   alias g='git'
   git_compl_file="/usr/share/git/completion/git-completion.bash"
   if [ -f "$git_compl_file" ]; then
@@ -66,7 +66,7 @@ if [ -x $(command -v git) ]; then
 fi
 
 # docker
-if [ -x $(command -v docker) ]; then
+if [ -x "$(command -v docker)" ]; then
   alias d='docker'
   docker_compl_file="/usr/share/bash-completion/completions/docker"
   if [ -f "$docker_compl_file" ]; then
@@ -76,7 +76,7 @@ if [ -x $(command -v docker) ]; then
 fi
 
 # kubectl
-if [ -x $(command -v kubectl) ]; then
+if [ -x "$(command -v kubectl)" ]; then
   alias k='kubectl'
   kubectl_compl_file="/usr/share/bash-completion/completions/kubectl"
   if [ -f "$kubectl_compl_file" ]; then
@@ -86,13 +86,18 @@ if [ -x $(command -v kubectl) ]; then
 fi
 
 # terraform
-if [ -x $(command -v terraform) ]; then
+if [ -x "$(command -v terraform)" ]; then
   alias t='terraform'
   terraform_compl_file="/usr/share/bash-completion/completions/terraform"
   if [ -f "$terraform_compl_file" ]; then
     source "$terraform_compl_file"
     complete -C '/usr/bin/terraform' t
   fi
+fi
+
+# terragrunt
+if [ -x "$(command -v terragrunt)" ]; then
+  alias tg='terragrunt'
 fi
 
 # set the primary prompt (PS1)
