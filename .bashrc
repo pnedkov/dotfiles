@@ -100,6 +100,11 @@ if [ -x "$(command -v terragrunt)" ]; then
   alias tg='terragrunt'
 fi
 
+# bat
+if [ -x "$(command -v bat)" ]; then
+  alias cat='bat -p'
+fi
+
 # set the primary prompt (PS1)
 if [ $(id -u) = 0 ]; then
   PS1="\[\033[38;5;12m\][\[$(tput sgr0)\]\[\033[38;5;9m\]\u\[$(tput sgr0)\]\[\033[38;5;12m\]@\[$(tput sgr0)\]\[\033[38;5;7m\]\h\[$(tput sgr0)\]\[\033[38;5;12m\]]\[$(tput sgr0)\]\[\033[38;5;15m\]: \[$(tput sgr0)\]\[\033[38;5;7m\]\w\[$(tput sgr0)\]\[\033[38;5;12m\]>\[$(tput sgr0)\]\[\033[38;5;9m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
