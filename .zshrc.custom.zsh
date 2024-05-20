@@ -91,7 +91,6 @@ fi
 # set the primary prompt (PS1)
 #if [ $(id -u) = 0 ]; then
 #    PROMPT="%F{33}[%F{9}%n%F{33}@%F{7}%m%F{33}]%F{7}: %~>%F{9}$ %f"
-#
 #else
 #    PROMPT="%F{33}[%F{10}%n%F{33}@%F{7}%m%F{33}]%F{7}: %~>%F{10}$ %f"
 #fi
