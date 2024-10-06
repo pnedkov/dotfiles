@@ -2,14 +2,22 @@
 # ~/.zshrc
 #
 
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
 # user-specific binaries
 [[ -d ~/.bin && -z $TMUX && ${PATH} != *"${HOME}/.bin"* ]] && PATH=${PATH}:${HOME}/.bin
 
+# enable homebrew completions
 if type brew &>/dev/null; then
-  FPATH=$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
   autoload -Uz compinit
   compinit
@@ -83,18 +91,6 @@ if [ -x "$(command -v terraform)" ]; then
   alias t='terraform'
 fi
 
-# terragrunt
-if [ -x "$(command -v terragrunt)" ]; then
-  alias tg='terragrunt'
-fi
-
-# set the primary prompt (PS1)
-#if [ $(id -u) = 0 ]; then
-#    PROMPT="%F{33}[%F{9}%n%F{33}@%F{7}%m%F{33}]%F{7}: %~>%F{9}$ %f"
-#else
-#    PROMPT="%F{33}[%F{10}%n%F{33}@%F{7}%m%F{33}]%F{7}: %~>%F{10}$ %f"
-#fi
-
 # start tmux automatically - not the best idea after all
 #if [ -x "$(command -v tmux)" ] && [ -z "${TMUX}" ]; then
 #    exec tmux new-session -A -s ${USER} >/dev/null 2>&1
@@ -118,3 +114,11 @@ genpass() {
 # 5 -> blinking bar (xterm)
 # 6 -> steady bar (xterm)
 #printf '\033[2 q'
+
+# powerlevel10k theme
+if [[ -r "$(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-them" ]]; then
+    source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+fi
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
