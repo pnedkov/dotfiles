@@ -59,7 +59,7 @@ alias l='ls'
 alias la='ls -a'
 alias ll='ls -l'
 alias lla='ls -la'
-alias vim='v'
+alias v='vim'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias ip="ifconfig | grep 'inet '"
