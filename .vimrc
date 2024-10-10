@@ -1,6 +1,9 @@
 syntax on
 colorscheme wildcharm
 
+nnoremap <SPACE> <Nop>
+let mapleader=" "
+
 set mouse=r
 
 set encoding=utf-8
@@ -16,6 +19,8 @@ set cursorline
 
 set hlsearch
 set incsearch
+
+set showcmd
 
 set ruler
 
