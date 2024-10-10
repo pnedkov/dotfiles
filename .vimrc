@@ -35,6 +35,10 @@ set showbreak=↪\
 set listchars=tab:»\ ,eol:↲,nbsp:⎵,trail:•,extends:⟩,precedes:⟨
 nmap <silent> <leader>l :set invlist<CR>
 
+nmap <silent> <leader>q :qa!<CR>
+nmap <silent> <leader>w :w<CR>
+nmap <silent> <leader>x :x<CR>
+
 autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype gitconfig setlocal ts=8 sts=0 sw=8 noet
