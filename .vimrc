@@ -27,7 +27,7 @@ set cursorline
 highlight CursorLineNR ctermfg=red
 
 set showbreak=↪\ 
-set listchars=tab:»\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+set listchars=tab:»\ ,eol:↲,nbsp:⎵,trail:•,extends:⟩,precedes:⟨
 nmap <silent> <leader>l :set invlist<CR>
 
 autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
