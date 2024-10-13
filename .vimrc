@@ -24,7 +24,7 @@ set showcmd
 
 set ruler
 
-set number
+set number relativenumber
 " nnoremap <silent> <leader>n :set number!<CR>
 nmap <silent> <leader>n :set number!<CR>
 
