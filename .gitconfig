@@ -5,6 +5,7 @@
 	aa = add --all
 	ai = add -i
 	ap = add --patch
+	an = add -N
 
 	ay = apply
 	ays = apply --stat
@@ -41,8 +42,9 @@
 
 	g = grep -p
 
-	l = log --oneline --graph --decorate
-	lg = log -m --branches --graph --abbrev-commit --decorate --date=relative --pretty=tformat:'%C(bold blue)%h%C(reset)%C(auto)%d -%C(reset) %C(auto)%s%C(reset) %C(white)[a:%an] [c:%cn]%C(reset) %C(green)(%ar)%C(reset)'
+	l = "!f() { gll=${1:-10}; git log --oneline --graph --decorate -${gll/#-/}; }; f"
+	lo = "!f() { git log --no-color --no-decorate | bat -n -l 'Git log' ; }; f"
+	lg = "!f() { gll=${1:-10}; git log -m --branches --graph --abbrev-commit --decorate --date=relative --pretty=tformat:'%C(bold blue)%h%C(reset)%C(auto)%d -%C(reset) %C(auto)%s%C(reset) %C(white)[a:%an] [c:%cn]%C(reset) %C(green)(%ar)%C(reset)' -${gll/#-/}; }; f"
 	lp = log -m --branches --graph --follow -p
 
 	ls = ls-files
@@ -70,6 +72,7 @@
 	plo = pull origin
 	plb = pull --rebase
 	plum = pull upstream master
+	plom = pull origin master:master
 
 	rb = rebase
 	rba = rebase --abort
@@ -91,7 +94,7 @@
 	ra = remote add
 	rr = remote rm
 	rv = remote -v
-	rm = remote rename
+	#rm = remote rename
 	rp = remote prune
 	rs = remote show
 	rao = remote add origin
@@ -114,7 +117,8 @@
 
 	tags = tag -n99
 
-	w = show --color
+	w = show --color -m
+	wn = show --name-only --color -m
 	ws = show --color -C --stat
 
 	ours = "!f() { git checkout --ours $@ && git add $@; }; f"
