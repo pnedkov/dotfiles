@@ -54,14 +54,14 @@ export EDITOR=vim
 # Aliases
 #
 alias ..='cd ..'
-alias ls='ls --color=auto'
+alias ls='ls --color=always'
 alias l='ls'
 alias la='ls -a'
 alias ll='ls -l'
 alias lla='ls -la'
 alias v='vim'
-alias grep='grep --color=auto'
-alias diff='diff --color=auto'
+alias grep='grep --color=always'
+alias diff='diff --color=always'
 alias ip="ifconfig | grep 'inet '"
 alias dmesg='dmesg -L=always'
 
