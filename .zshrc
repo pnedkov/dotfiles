@@ -182,6 +182,15 @@ genpass() {
   echo
 }
 
+ccat() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: ${funcstack[1]} <file1> [file2 ...]"
+        return 1
+    fi
+
+    sed '/^\s*#/d; /^\s*$/d' "$@"
+}
+
 #
 # Experimental
 #
