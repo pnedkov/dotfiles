@@ -64,6 +64,7 @@ alias grep='grep --color=always'
 alias diff='diff --color=always'
 alias ip="ifconfig | grep 'inet '"
 alias dmesg='dmesg -L=always'
+alias bup='brew update && brew upgrade'
 
 # bat
 if [ -x "$(command -v bat)" ]; then
