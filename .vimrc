@@ -27,7 +27,7 @@ set ruler
 
 set number relativenumber
 " nnoremap <silent> <leader>n :set number!<CR>
-nmap <silent> <leader>n :set number!<CR>
+nmap <silent> <leader>n :set number! relativenumber!<CR>
 
 set cursorline
 highlight CursorLineNR ctermfg=red
