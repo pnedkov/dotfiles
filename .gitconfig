@@ -5,6 +5,7 @@
 	aa = add --all
 	ai = add -i
 	ap = add --patch
+	au = add --update
 	an = add -N
 
 	ay = apply
