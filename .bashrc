@@ -40,7 +40,7 @@ if [ -x "$(command -v eza)" ]; then
 fi
 
 # pacman
-if [ $(id -u) = 0 ]; then
+if [[ -f /etc/arch-release && $(id -u) = 0 ]]; then
   alias pacup="pacman -Syyu"
   alias pacsearch="pacman -Ss"
   alias pacinfo="pacman -Si"
