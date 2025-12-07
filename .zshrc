@@ -113,16 +113,6 @@ if [ -x "$(command -v kubectl)" ]; then
   alias k='kubectl'
 fi
 
-# kubectx
-if [ -x "$(command -v kubectx)" ]; then
-  alias kctx='kubectx'
-fi
-
-# kubens
-if [ -x "$(command -v kubens)" ]; then
-  alias kns='kubens'
-fi
-
 # terraform
 if [ -x "$(command -v terraform)" ]; then
   alias t='terraform'
