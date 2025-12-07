@@ -102,11 +102,6 @@ if [ -x "$(command -v terraform)" ]; then
   fi
 fi
 
-# terragrunt
-if [ -x "$(command -v terragrunt)" ]; then
-  alias tg='terragrunt'
-fi
-
 # bat
 if [ -x "$(command -v bat)" ]; then
   alias cat='bat -p'
