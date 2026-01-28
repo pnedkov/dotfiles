@@ -153,6 +153,9 @@ bindkey '^R' history-incremental-search-backward
 # fzf
 (( $+commands[fzf] )) && source <(fzf --zsh)
 
+# Starship
+(( $+commands[starship] )) && eval "$(starship init zsh)"
+
 #
 # Functions
 #
