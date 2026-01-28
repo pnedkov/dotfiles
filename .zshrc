@@ -5,13 +5,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # User-specific binaries
 [[ -d ~/bin && -z $TMUX && ${PATH} != *"${HOME}/bin"* ]] && PATH=${PATH}:${HOME}/bin
 
@@ -117,18 +110,6 @@ fi
 if [ -x "$(command -v terraform)" ]; then
   alias t='terraform'
 fi
-
-#
-# Powerlevel10k
-#
-
-# powerlevel10k theme
-if [[ -r "$BREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
-    source $BREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
-fi
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 #
 # zsh plugins
