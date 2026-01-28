@@ -114,14 +114,23 @@ fi
 # zsh plugins
 #
 zsh_plugins=(
-    "zsh-autosuggestions"
-    "zsh-syntax-highlighting"
+  zsh-autosuggestions
+  zsh-syntax-highlighting
 )
 
-for zsh_plugin in "${zsh_plugins[@]}"; do
-    zsh_plugin_file="$BREW_PREFIX/share/$zsh_plugin/$zsh_plugin.zsh"
+plugin_dir=''
 
-    [[ -r "$zsh_plugin_file" ]] && source "$zsh_plugin_file"
+if (( ${+is_macos} )); then
+  (( $+commands[brew] )) && plugin_dir="$BREW_PREFIX/share"
+elif (( ${+is_linux} )); then
+  plugin_dir='/usr/share/zsh/plugins'
+elif (( ${+is_freebsd} )); then
+  plugin_dir='/usr/local/share'
+fi
+
+[[ -n $plugin_dir ]] && for plugin in $zsh_plugins; do
+  plugin_file="$plugin_dir/$plugin/$plugin.zsh"
+  [[ -r $plugin_file ]] && source "$plugin_file"
 done
 
 #
