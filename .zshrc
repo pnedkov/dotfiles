@@ -133,6 +133,9 @@ fi
   [[ -r $plugin_file ]] && source "$plugin_file"
 done
 
+# include . and .. in the list of possible completions
+zstyle ':completion:*' special-dirs true
+
 #
 # Key bindings
 #
