@@ -159,9 +159,19 @@ fi
 # Functions
 #
 
+# Generate passwords
 genpass() {
-  [[ -z "$1" ]] && l=16 || l=$1
-  openssl rand -base64 4096 | tr -cd '[[:alnum:]]' | head -c $l
+  if (( $# > 1 )); then
+    print -u2 "Usage: ${funcstack[1]} [length]"
+    return 1
+  fi
+
+  local len=${1:-16}
+  [[ $len == <-> ]] || len=16
+
+  LC_ALL=C openssl rand -base64 4096 |
+    tr -cd '[:alnum:]' |
+    head -c "$len"
   echo
 }
 
