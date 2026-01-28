@@ -10,7 +10,7 @@
 
 # Supported OS
 case "$(uname -s)" in
-  Linux)   is_linux=1 ;;
+  Linux)   is_linux=1 ;; # Arch btw
   Darwin)  is_macos=1 ;;
   FreeBSD) is_freebsd=1 ;;
 esac
@@ -72,53 +72,43 @@ alias dmesg='dmesg -L=always'
 (( ${+is_macos} )) && (( $+commands[brew] )) && alias bup='brew update && brew upgrade'
 
 # bat
-if [ -x "$(command -v bat)" ]; then
-  alias cat='bat -p'
-fi
+(( $+commands[bat] )) && alias cat='bat -p'
 
 # eza
-if [ -x "$(command -v eza)" ]; then
+if (( $+commands[eza] )); then
+  local eza_common='--icons --git --time-style "+%Y %b %e %H:%M"'
+
   alias ls="e"
   alias ll="el"
   alias lla="ela"
   alias llt="et"
-  alias e="eza -g --icons --git --time-style '+%Y %b %e %H:%M'"
-  alias el="eza -lg --icons --git --time-style '+%Y %b %e %H:%M'"
-  alias ela="eza -lga --icons --git --time-style '+%Y %b %e %H:%M'"
+  alias e="eza -g $eza_common"
+  alias el="eza -lg $eza_common"
+  alias ela="eza -lga $eza_common"
   alias et="eza --tree"
 fi
 
 # neovim
-if [ -x "$(command -v nvim)" ]; then
+if (( $+commands[nvim] )); then
   alias nv='nvim'
   alias vimdiff='nvim -d'
   export EDITOR=nvim
 fi
 
 # aws
-if [ -x "$(command -v aws)" ]; then
-  alias whoaws='aws sts get-caller-identity'
-fi
+(( $+commands[aws] )) && alias whoaws='aws sts get-caller-identity'
 
 # git
-if [ -x "$(command -v git)" ]; then
-  alias g='git'
-fi
+(( $+commands[git] )) && alias g='git'
 
 # docker
-if [ -x "$(command -v docker)" ]; then
-  alias d='docker'
-fi
+(( $+commands[docker] )) && alias d='docker'
 
 # kubectl
-if [ -x "$(command -v kubectl)" ]; then
-  alias k='kubectl'
-fi
+(( $+commands[kubectl] )) && alias k='kubectl'
 
 # terraform
-if [ -x "$(command -v terraform)" ]; then
-  alias t='terraform'
-fi
+(( $+commands[terraform] )) && alias t='terraform'
 
 #
 # zsh plugins
