@@ -8,15 +8,24 @@
 # User-specific binaries
 [[ -d "$HOME/.local/bin" ]] && path=("$HOME/.local/bin" $path)
 
+# Supported OS
+case "$(uname -s)" in
+  Linux)   is_linux=1 ;;
+  Darwin)  is_macos=1 ;;
+  FreeBSD) is_freebsd=1 ;;
+esac
+
 # Enable homebrew completions
-BREW_PREFIX=$HOMEBREW_PREFIX
-[[ -z $BREW_PREFIX ]] && BREW_PREFIX=$(brew --prefix)
+if (( ${+is_macos} )) && command -v brew >/dev/null 2>&1; then
+  BREW_PREFIX=$HOMEBREW_PREFIX
+  [[ -z $BREW_PREFIX ]] && BREW_PREFIX=$(brew --prefix)
 
-if type brew &>/dev/null; then
-  FPATH="$BREW_PREFIX/share/zsh/site-functions:${FPATH}"
+  if type brew &>/dev/null; then
+    FPATH="$BREW_PREFIX/share/zsh/site-functions:${FPATH}"
 
-  autoload -Uz compinit
-  compinit
+    autoload -Uz compinit
+    compinit
+  fi
 fi
 
 # Turn off all beeps
@@ -60,7 +69,7 @@ alias grep='grep --color=always'
 alias diff='diff --color=always'
 alias ip="ifconfig | grep 'inet '"
 alias dmesg='dmesg -L=always'
-alias bup='brew update && brew upgrade'
+(( ${+is_macos} )) && (( $+commands[brew] )) && alias bup='brew update && brew upgrade'
 
 # bat
 if [ -x "$(command -v bat)" ]; then
