@@ -6,7 +6,7 @@
 [[ $- != *i* ]] && return
 
 # User-specific binaries
-[[ -d ~/bin && -z $TMUX && ${PATH} != *"${HOME}/bin"* ]] && PATH=${PATH}:${HOME}/bin
+[[ -d "$HOME/.local/bin" ]] && path=("$HOME/.local/bin" $path)
 
 # Enable homebrew completions
 BREW_PREFIX=$HOMEBREW_PREFIX
