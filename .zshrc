@@ -150,10 +150,8 @@ bindkey '^R' history-incremental-search-backward
 # zsh-suggestions settings
 #bindkey '^ ' autosuggest-accept
 
-# Set up fzf key bindings and fuzzy completion
-if [ -x "$(command -v fzf)" ]; then
-  source <(fzf --zsh)
-fi
+# fzf
+(( $+commands[fzf] )) && source <(fzf --zsh)
 
 #
 # Functions
