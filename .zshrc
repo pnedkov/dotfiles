@@ -150,6 +150,9 @@ bindkey '^H' backward-kill-word
 #bindkey "^[[B" history-search-forward
 bindkey '^R' history-incremental-search-backward
 
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
+
 # zsh-suggestions settings
 #bindkey '^ ' autosuggest-accept
 
