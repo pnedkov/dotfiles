@@ -55,7 +55,6 @@ alias ll='ls -l'
 alias lla='ls -la'
 alias lld='ls -ld'
 alias lln='ls -ln'
-alias v='vim'
 alias grep='grep --color=always'
 alias diff='diff --color=always'
 alias ip="ifconfig | grep 'inet '"
@@ -81,7 +80,6 @@ fi
 
 # neovim
 if (( $+commands[nvim] )); then
-  alias nv='nvim'
   alias vimdiff='nvim -d'
   export EDITOR=nvim
 fi
