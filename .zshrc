@@ -107,20 +107,19 @@ zsh_plugins=(
   zsh-syntax-highlighting
 )
 
-plugin_dir=''
+case 1 in
+  $(( ${+is_macos} ))) (( ${+HOMEBREW_PREFIX} )) && plugin_dir="$HOMEBREW_PREFIX/share" ;;
+  $(( ${+is_linux} ))) plugin_dir='/usr/share/zsh/plugins' ;;
+  $(( ${+is_freebsd} ))) plugin_dir='/usr/local/share' ;;
+  *) plugin_dir='' ;;
+esac
 
-if (( ${+is_macos} )); then
-  (( ${+HOMEBREW_PREFIX} )) && plugin_dir="$HOMEBREW_PREFIX/share"
-elif (( ${+is_linux} )); then
-  plugin_dir='/usr/share/zsh/plugins'
-elif (( ${+is_freebsd} )); then
-  plugin_dir='/usr/local/share'
+if [[ -n $plugin_dir ]]; then
+  for plugin in $zsh_plugins; do
+    plugin_file="$plugin_dir/$plugin/$plugin.zsh"
+    [[ -r $plugin_file ]] && source "$plugin_file"
+  done
 fi
-
-[[ -n $plugin_dir ]] && for plugin in $zsh_plugins; do
-  plugin_file="$plugin_dir/$plugin/$plugin.zsh"
-  [[ -r $plugin_file ]] && source "$plugin_file"
-done
 
 # include . and .. in the list of possible completions
 zstyle ':completion:*' special-dirs true
