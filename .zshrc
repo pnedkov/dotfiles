@@ -42,7 +42,7 @@ export TERM=xterm-256color
 export LESS='-Q -F -R --use-color -Dd+r$Du+c$'
 export MANPAGER="less -R --use-color -Dd+r -Du+c"
 export MANROFFOPT="-P -c"
-export EDITOR=vim
+(( $+commands[vim] )) && export EDITOR=vim
 
 #
 # Aliases
