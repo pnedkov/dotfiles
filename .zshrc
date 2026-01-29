@@ -15,18 +15,9 @@ case "$(uname -s)" in
   FreeBSD) is_freebsd=1 ;;
 esac
 
-# Enable homebrew completions
-if (( ${+is_macos} )) && command -v brew >/dev/null 2>&1; then
-  BREW_PREFIX=$HOMEBREW_PREFIX
-  [[ -z $BREW_PREFIX ]] && BREW_PREFIX=$(brew --prefix)
-
-  if type brew &>/dev/null; then
-    FPATH="$BREW_PREFIX/share/zsh/site-functions:${FPATH}"
-
-    autoload -Uz compinit
-    compinit
-  fi
-fi
+# Enable completions
+autoload -Uz compinit
+compinit
 
 # Turn off all beeps
 unsetopt BEEP
