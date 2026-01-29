@@ -110,7 +110,7 @@ zsh_plugins=(
 plugin_dir=''
 
 if (( ${+is_macos} )); then
-  (( $+commands[brew] )) && (( ${+HOMEBREW_PREFIX} )) && plugin_dir="$HOMEBREW_PREFIX/share"
+  (( ${+HOMEBREW_PREFIX} )) && plugin_dir="$HOMEBREW_PREFIX/share"
 elif (( ${+is_linux} )); then
   plugin_dir='/usr/share/zsh/plugins'
 elif (( ${+is_freebsd} )); then
