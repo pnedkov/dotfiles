@@ -2,8 +2,8 @@
 # ~/.zshrc
 #
 
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+# Return if non-interactive
+[[ -o interactive ]] || return
 
 # User-specific binaries
 [[ -d "$HOME/.local/bin" ]] && path=("$HOME/.local/bin" $path)
