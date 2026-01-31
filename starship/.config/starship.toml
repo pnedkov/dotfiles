@@ -58,6 +58,7 @@ symbol = " "
 [git_branch]
 symbol = " "
 style = 'green'
+format = '[$symbol$branch(:$remote_branch)]($style) '
 
 [git_commit]
 tag_symbol = '  '
@@ -82,6 +83,7 @@ symbol = " "
 
 [hostname]
 ssh_symbol = " "
+format = '[$ssh_symbol$hostname]($style) : '
 
 [java]
 symbol = " "
@@ -199,6 +201,9 @@ symbol = " "
 
 [swift]
 symbol = " "
+
+[username]
+format = '[$user]($style) '
 
 [xmake]
 symbol = " "
