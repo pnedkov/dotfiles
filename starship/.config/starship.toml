@@ -237,3 +237,4 @@ format = '[+$added]($added_style)/[-$deleted]($deleted_style) '
 
 #[character]
 #success_symbol = '[➜](bold green)'
+#error_symbol = '[➜](bold red)'
