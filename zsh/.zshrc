@@ -75,7 +75,7 @@ if (( $+commands[eza] )); then
   alias e="eza -g $eza_common"
   alias el="eza -lg $eza_common"
   alias ela="eza -lga $eza_common"
-  alias et="eza --tree"
+  alias et="eza --tree --git-ignore"
 fi
 
 # neovim
