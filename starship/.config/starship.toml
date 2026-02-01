@@ -83,7 +83,9 @@ symbol = " "
 
 [hostname]
 ssh_symbol = " "
+ssh_only = false
 format = '[$ssh_symbol$hostname]($style) : '
+detect_env_vars = ['SUDO_USER', 'SSH_CONNECTION']
 
 [java]
 symbol = " "
