@@ -5,15 +5,15 @@
 # Return if non-interactive
 [[ -o interactive ]] || return
 
-# User-specific binaries
-[[ -d "$HOME/.local/bin" ]] && path=("$HOME/.local/bin" $path)
-
 # Supported OS
 case "$(uname -s)" in
   Linux)   is_linux=1 ;; # Arch btw
   Darwin)  is_macos=1 ;;
   FreeBSD) is_freebsd=1 ;;
 esac
+
+# User-specific binaries
+[[ -d "$HOME/.local/bin" ]] && path=("$HOME/.local/bin" $path)
 
 # Enable completions
 autoload -Uz compinit
