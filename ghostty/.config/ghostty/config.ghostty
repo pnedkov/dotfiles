@@ -34,3 +34,6 @@ keybind = alt+arrow_right=unbind
 window-colorspace = display-p3
 
 unfocused-split-opacity = 1
+
+macos-titlebar-proxy-icon = hidden
+title = " "
