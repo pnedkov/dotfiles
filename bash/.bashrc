@@ -22,7 +22,6 @@ path_export() { [[ -d "$1" && ":$PATH:" != *":$1:"* ]] && export PATH="$1:$PATH"
 [[ -z $TMUX ]] && path_export "$HOME/.local/bin"
 
 # Exports
-export TERM=screen-256color
 export LESS='-Q -F -R --use-color -Dd+r$Du+b$'
 export MANPAGER="less -R --use-color -Dd+r -Du+b"
 export MANROFFOPT="-P -c"
