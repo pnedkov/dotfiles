@@ -38,7 +38,6 @@ setopt HIST_VERIFY
 setopt HIST_REDUCE_BLANKS
 
 # Exports
-export TERM=xterm-256color
 export LESS='-Q -F -R --use-color -Dd+r$Du+c$'
 export MANPAGER="less -R --use-color -Dd+r -Du+c"
 export MANROFFOPT="-P -c"
@@ -57,7 +56,7 @@ alias lld='ls -ld'
 alias lln='ls -ln'
 alias grep='grep --color=always'
 alias diff='diff --color=always'
-alias dmesg='dmesg -L=always'
+(( ${+is_linux} )) && alias dmesg='dmesg -L=always'
 (( $+commands[ifconfig] )) && alias ip="ifconfig | grep 'inet '"
 (( ${+is_macos} )) && (( $+commands[brew] )) && alias bup='brew update && brew upgrade'
 
@@ -83,6 +82,7 @@ if (( $+commands[nvim] )); then
   alias vimdiff='nvim -d'
   export EDITOR=nvim
 fi
+[[ -n $EDITOR ]] && export VISUAL=$EDITOR
 
 # aws
 (( $+commands[aws] )) && alias whoaws='aws sts get-caller-identity'
@@ -203,4 +203,3 @@ ccat() {
 #if [ -x "$(command -v tmux)" ] && [ -z "${TMUX}" ]; then
 #    exec tmux new-session -A -s ${USER} >/dev/null 2>&1
 #fi
-
