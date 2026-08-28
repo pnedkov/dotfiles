@@ -155,6 +155,11 @@ unset eza_common is_linux is_macos is_freebsd
 unset zsh_plugins plugin_dir plugin plugin_file
 
 #
+# Corp
+#
+[[ -r "$HOME/.config/zsh/corp.zsh" ]] && source "$HOME/.config/zsh/corp.zsh"
+
+#
 # Functions
 #
 
