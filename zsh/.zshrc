@@ -138,7 +138,7 @@ zsh_plugins=(
 )
 
 case 1 in
-  $(( ${+is_macos} ))) (( ${+HOMEBREW_PREFIX} )) && plugin_dir="$HOMEBREW_PREFIX/share" ;;
+  $(( ${+is_macos} ))) plugin_dir="${HOMEBREW_PREFIX:-/opt/homebrew}/share" ;;
   $(( ${+is_linux} ))) plugin_dir='/usr/share/zsh/plugins' ;;
   $(( ${+is_freebsd} ))) plugin_dir='/usr/local/share' ;;
   *) plugin_dir='' ;;
