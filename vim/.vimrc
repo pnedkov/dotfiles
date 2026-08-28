@@ -15,6 +15,7 @@ set autoindent
 set expandtab
 set cursorline
 set hidden
+set autoread
 set splitbelow splitright
 set scrolloff=3
 set updatetime=300
@@ -58,6 +59,21 @@ augroup filetype_settings
   autocmd FileType gitconfig setlocal ts=8 sts=0 sw=8 noet
   autocmd FileType gitcommit setlocal tw=72
 augroup END
+
+augroup auto_reload
+  autocmd!
+  autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * checktime
+augroup END
+
+if has('timers')
+  if exists('s:auto_reload_timer')
+    call timer_stop(s:auto_reload_timer)
+  endif
+  let s:auto_reload_timer = timer_start(
+        \ 1000,
+        \ {timer -> execute('checktime | redraw')},
+        \ {'repeat': -1})
+endif
 
 " automatically move the cursor to the last position
 if has("autocmd")
