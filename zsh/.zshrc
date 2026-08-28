@@ -99,28 +99,6 @@ fi
 # terraform
 (( $+commands[terraform] )) && alias t='terraform'
 
-#
-# zsh plugins
-#
-zsh_plugins=(
-  zsh-autosuggestions
-  zsh-syntax-highlighting
-)
-
-case 1 in
-  $(( ${+is_macos} ))) (( ${+HOMEBREW_PREFIX} )) && plugin_dir="$HOMEBREW_PREFIX/share" ;;
-  $(( ${+is_linux} ))) plugin_dir='/usr/share/zsh/plugins' ;;
-  $(( ${+is_freebsd} ))) plugin_dir='/usr/local/share' ;;
-  *) plugin_dir='' ;;
-esac
-
-if [[ -n $plugin_dir ]]; then
-  for plugin in $zsh_plugins; do
-    plugin_file="$plugin_dir/$plugin/$plugin.zsh"
-    [[ -r $plugin_file ]] && source "$plugin_file"
-  done
-fi
-
 # include . and .. in the list of possible completions
 zstyle ':completion:*' special-dirs true
 
@@ -149,6 +127,31 @@ bindkey '^[[1;5D' backward-word
 
 # Starship
 (( $+commands[starship] )) && eval "$(starship init zsh)"
+
+#
+# zsh plugins
+#
+zsh_plugins=(
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
+
+case 1 in
+  $(( ${+is_macos} ))) (( ${+HOMEBREW_PREFIX} )) && plugin_dir="$HOMEBREW_PREFIX/share" ;;
+  $(( ${+is_linux} ))) plugin_dir='/usr/share/zsh/plugins' ;;
+  $(( ${+is_freebsd} ))) plugin_dir='/usr/local/share' ;;
+  *) plugin_dir='' ;;
+esac
+
+if [[ -n $plugin_dir ]]; then
+  for plugin in $zsh_plugins; do
+    plugin_file="$plugin_dir/$plugin/$plugin.zsh"
+    [[ -r $plugin_file ]] && source "$plugin_file"
+  done
+fi
+
+unset eza_common is_linux is_macos is_freebsd
+unset zsh_plugins plugin_dir plugin plugin_file
 
 #
 # Functions
