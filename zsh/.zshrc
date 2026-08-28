@@ -14,6 +14,7 @@ esac
 
 # User-specific binaries
 [[ -d "$HOME/.local/bin" ]] && path=("$HOME/.local/bin" $path)
+[[ -d "$HOME/.krew/bin" ]] && path=("$HOME/.krew/bin" $path)
 
 # Enable completions
 autoload -Uz compinit
