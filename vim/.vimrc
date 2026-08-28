@@ -8,19 +8,31 @@ let mapleader=" "
 
 set mouse=r
 
-set encoding=utf-8
-
-set pastetoggle=<F12>
-
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set autoindent
 set expandtab
 set cursorline
+set hidden
+set splitbelow splitright
+set scrolloff=3
+set updatetime=300
 
-set hlsearch
-set incsearch
+set hlsearch incsearch
+set ignorecase smartcase
+
+if has('persistent_undo')
+  let s:undo_dir = expand('~/.vim/undo')
+  if !isdirectory(s:undo_dir)
+    silent! call mkdir(s:undo_dir, 'p', 0700)
+  endif
+  if isdirectory(s:undo_dir)
+    let &undodir = s:undo_dir . '//'
+    set undofile
+  endif
+  unlet s:undo_dir
+endif
 
 set showcmd
 
@@ -28,17 +40,17 @@ set ruler
 
 set number relativenumber
 " nnoremap <silent> <leader>n :set number!<CR>
-nmap <silent> <leader>n :set number! relativenumber!<CR>
+nnoremap <silent> <leader>n :set number! relativenumber!<CR>
 
 highlight CursorLineNR ctermfg=red
 
 set showbreak=↪\ 
 set listchars=tab:»\ ,eol:↲,nbsp:⎵,trail:•,extends:⟩,precedes:⟨
-nmap <silent> <leader>l :set invlist<CR>
+nnoremap <silent> <leader>l :set invlist<CR>
 
-nmap <silent> <leader>Q :qa!<CR>
-nmap <silent> <leader>w :w<CR>
-nmap <silent> <leader>x :x<CR>
+nnoremap <silent> <leader>Q :qa!<CR>
+nnoremap <silent> <leader>w :w<CR>
+nnoremap <silent> <leader>x :x<CR>
 
 augroup filetype_settings
   autocmd!
