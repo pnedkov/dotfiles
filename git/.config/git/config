@@ -1,5 +1,5 @@
 [include]
-	path = ~/.gitconfig.id
+	path = ~/.config/git/config.user
 [alias]
 	a = add
 	aa = add --all
