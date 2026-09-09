@@ -1,5 +1,7 @@
-[include]
-	path = ~/.config/git/config.user
+[user]
+	useConfigOnly = true
+[includeIf "hasconfig:remote.*.url:git@github.com:pnedkov/**"]
+	path = ~/.config/git-private/personal.conf
 [alias]
 	a = add
 	aa = add --all
