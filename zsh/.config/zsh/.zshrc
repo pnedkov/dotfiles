@@ -196,13 +196,8 @@ genpass() {
 
 # Print only non-empty and non-commented lines
 ccat() {
-  if (( $# == 0 )); then
-    print -u2 "Usage: ${funcstack[1]} <file1> [file2 ...]"
-    return 1
-  fi
-
   # Drop comment-only lines and blank/whitespace-only lines
-  sed -E '/^[[:space:]]*#/d; /^[[:space:]]*$/d' -- "$@"
+  sed -E '/^[[:space:]]*#/d; /^[[:space:]]*$/d' "$@"
 }
 
 #
