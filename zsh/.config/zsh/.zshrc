@@ -1,5 +1,5 @@
 #
-# ~/.zshrc
+# ~/.config/zsh/.zshrc
 #
 
 # Return if non-interactive
@@ -16,15 +16,23 @@ esac
 [[ -d "$HOME/.local/bin" ]] && path=("$HOME/.local/bin" $path)
 [[ -d "$HOME/.krew/bin" ]] && path=("$HOME/.krew/bin" $path)
 
+# State and cache directories
+zsh_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+zsh_state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/zsh"
+if [[ ! -d "$zsh_cache_dir/zcompcache" || ! -d "$zsh_state_dir" ]]; then
+  mkdir -p -m 700 -- "$zsh_cache_dir/zcompcache" "$zsh_state_dir"
+fi
+
 # Enable completions
+zstyle ':completion:*' cache-path "$zsh_cache_dir/zcompcache"
 autoload -Uz compinit
-compinit
+compinit -d "$zsh_cache_dir/zcompdump"
 
 # Turn off all beeps
 unsetopt BEEP
 
 # History settings
-HISTFILE=~/.zhistory          # History savefile location
+HISTFILE="$zsh_state_dir/history" # History savefile location
 HISTSIZE=1000000              # Number of history items to save in memory
 SAVEHIST=1000000              # Number of history items to save in file
 setopt APPEND_HISTORY         # multiple sessions append to same history file (rather than last)
@@ -152,12 +160,15 @@ if [[ -n $plugin_dir ]]; then
 fi
 
 unset eza_common is_linux is_macos is_freebsd
-unset zsh_plugins plugin_dir plugin plugin_file
+unset zsh_plugins plugin_dir plugin plugin_file zsh_cache_dir zsh_state_dir
 
 #
-# Corp
+# Additional configuration
 #
-[[ -r "$HOME/.config/zsh/corp.zsh" ]] && source "$HOME/.config/zsh/corp.zsh"
+for _file in "${XDG_CONFIG_HOME:-$HOME/.config}"/zsh-local/*.zsh(N); do
+  source "$_file"
+done
+unset _file
 
 #
 # Functions
