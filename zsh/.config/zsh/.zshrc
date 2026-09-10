@@ -65,6 +65,7 @@ alias lld='ls -ld'
 alias lln='ls -ln'
 alias grep='grep --color=always'
 alias diff='diff --color=always'
+alias tree='tree -I .git'
 (( ${+is_linux} )) && alias dmesg='dmesg -L=always'
 (( $+commands[ifconfig] )) && alias ip="ifconfig | grep 'inet '"
 (( ${+is_macos} )) && (( $+commands[brew] )) && alias bup='brew update && brew upgrade'
