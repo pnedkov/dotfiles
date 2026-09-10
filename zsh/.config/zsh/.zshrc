@@ -135,7 +135,10 @@ bindkey '^[[1;5D' backward-word
 (( $+commands[fzf] )) && source <(fzf --zsh)
 
 # Starship
-(( $+commands[starship] )) && eval "$(starship init zsh)"
+if (( $+commands[starship] )); then
+  export STARSHIP_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/starship/starship.toml"
+  eval "$(starship init zsh)"
+fi
 
 #
 # zsh plugins
