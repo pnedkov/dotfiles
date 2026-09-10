@@ -19,8 +19,9 @@ esac
 # State and cache directories
 zsh_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 zsh_state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/zsh"
-if [[ ! -d "$zsh_cache_dir/zcompcache" || ! -d "$zsh_state_dir" ]]; then
-  mkdir -p -m 700 -- "$zsh_cache_dir/zcompcache" "$zsh_state_dir"
+less_state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/less"
+if [[ ! -d "$zsh_cache_dir/zcompcache" || ! -d "$zsh_state_dir" || ! -d "$less_state_dir" ]]; then
+  mkdir -p -m 700 -- "$zsh_cache_dir/zcompcache" "$zsh_state_dir" "$less_state_dir"
 fi
 
 # Enable completions
@@ -48,6 +49,7 @@ setopt HIST_REDUCE_BLANKS
 
 # Exports
 export LESS='-Q -F -R --use-color -Dd+r$Du+c$'
+export LESSHISTFILE="$less_state_dir/history"
 export MANPAGER="less -R --use-color -Dd+r -Du+c"
 export MANROFFOPT="-P -c"
 (( $+commands[vim] )) && export EDITOR=vim
@@ -164,7 +166,7 @@ if [[ -n $plugin_dir ]]; then
 fi
 
 unset eza_common is_linux is_macos is_freebsd
-unset zsh_plugins plugin_dir plugin plugin_file zsh_cache_dir zsh_state_dir
+unset zsh_plugins plugin_dir plugin plugin_file zsh_cache_dir zsh_state_dir less_state_dir
 
 #
 # Additional configuration

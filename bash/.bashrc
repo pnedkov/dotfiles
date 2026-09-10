@@ -21,11 +21,19 @@ path_export() { [[ -d "$1" && ":$PATH:" != *":$1:"* ]] && export PATH="$1:$PATH"
 # User-specific binaries
 [[ -z $TMUX ]] && path_export "$HOME/.local/bin"
 
+# State directories
+less_state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/less"
+if [[ ! -d "$less_state_dir" ]]; then
+  mkdir -p -m 700 -- "$less_state_dir"
+fi
+
 # Exports
 export LESS='-Q -F -R --use-color -Dd+r$Du+b$'
+export LESSHISTFILE="$less_state_dir/history"
 export MANPAGER="less -R --use-color -Dd+r -Du+b"
 export MANROFFOPT="-P -c"
 has vim && export EDITOR=vim
+unset less_state_dir
 
 # Aliases
 alias ..='cd ..'
