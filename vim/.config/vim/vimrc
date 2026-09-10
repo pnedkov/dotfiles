@@ -23,17 +23,32 @@ set updatetime=300
 set hlsearch incsearch
 set ignorecase smartcase
 
-if has('persistent_undo')
-  let s:undo_dir = expand('~/.vim/undo')
-  if !isdirectory(s:undo_dir)
-    silent! call mkdir(s:undo_dir, 'p', 0700)
+" XDG state and cache directories
+let s:cache_home = empty($XDG_CACHE_HOME) ? expand('~/.cache') : $XDG_CACHE_HOME
+let s:state_home = empty($XDG_STATE_HOME) ? expand('~/.local/state') : $XDG_STATE_HOME
+let s:backup_dir = s:cache_home . '/vim/backup'
+let s:swap_dir = s:cache_home . '/vim/swap'
+let s:undo_dir = s:state_home . '/vim/undo'
+let s:view_dir = s:state_home . '/vim/view'
+
+for s:dir in [s:backup_dir, s:swap_dir, s:undo_dir, s:view_dir]
+  if !isdirectory(s:dir)
+    silent! call mkdir(s:dir, 'p', 0700)
   endif
-  if isdirectory(s:undo_dir)
-    let &undodir = s:undo_dir . '//'
-    set undofile
-  endif
-  unlet s:undo_dir
+endfor
+
+let &backupdir = s:backup_dir . '//'
+let &directory = s:swap_dir . '//'
+let &viewdir = s:view_dir
+if exists('+viminfofile')
+  let &viminfofile = s:state_home . '/vim/viminfo'
 endif
+if has('persistent_undo') && isdirectory(s:undo_dir)
+  let &undodir = s:undo_dir . '//'
+  set undofile
+endif
+
+unlet s:cache_home s:state_home s:backup_dir s:swap_dir s:undo_dir s:view_dir s:dir
 
 set showcmd
 
