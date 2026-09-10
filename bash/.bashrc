@@ -32,6 +32,7 @@ export LESS='-Q -F -R --use-color -Dd+r$Du+b$'
 export LESSHISTFILE="$less_state_dir/history"
 export MANPAGER="less -R --use-color -Dd+r -Du+b"
 export MANROFFOPT="-P -c"
+export NPM_CONFIG_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/npm"
 has vim && export EDITOR=vim
 unset less_state_dir
 
