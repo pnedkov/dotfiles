@@ -56,7 +56,6 @@
 	m = merge
 	ma = merge --abort
 	mc = merge --continue
-	ms = merge --skip
 
 	o = checkout
 	ob = checkout -b
