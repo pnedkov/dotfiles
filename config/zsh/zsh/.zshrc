@@ -12,6 +12,9 @@ case "$(uname -s)" in
   FreeBSD) is_freebsd=1 ;;
 esac
 
+# Keep PATH entries unique, preserving the first occurrence
+typeset -U PATH path
+
 # User-specific binaries
 [[ -d "$HOME/.local/bin" ]] && path=("$HOME/.local/bin" $path)
 [[ -d "$HOME/.krew/bin" ]] && path=("$HOME/.krew/bin" $path)
