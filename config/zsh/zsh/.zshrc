@@ -69,7 +69,10 @@ alias grep='grep --color=always'
 alias diff='diff --color=always'
 alias tree='tree -I .git'
 (( ${+is_linux} )) && alias dmesg='dmesg -L=always'
-(( $+commands[ifconfig] )) && alias ip="ifconfig | grep 'inet '"
+if (( $+commands[ifconfig] )); then
+  alias ip4="ifconfig | grep 'inet '"
+  alias ip6="ifconfig | grep 'inet6 '"
+fi
 (( ${+is_macos} )) && (( $+commands[brew] )) && alias bup='brew update && brew upgrade'
 
 # bat

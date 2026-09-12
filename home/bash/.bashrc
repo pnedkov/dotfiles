@@ -48,8 +48,11 @@ alias lln='ls -ln'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip -color=auto'
-alias dmesg='dmesg -L=always'
-has ifconfig && alias ip="ifconfig | grep 'inet '"
+[[ -n $is_linux ]] && alias dmesg='dmesg -L=always'
+if has ifconfig; then
+  alias ip4="ifconfig | grep 'inet '"
+  alias ip6="ifconfig | grep 'inet6 '"
+fi
 
 # eza
 if has eza; then
