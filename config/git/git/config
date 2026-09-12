@@ -45,9 +45,10 @@
 
 	g = grep -p
 
-	l = "!f() { gll=${1:-10}; git log --oneline --graph --decorate -${gll#-}; }; f"
+	l = log -10 --oneline --graph --decorate
 	lo = "!f() { git log --no-color --no-decorate | bat -n -l 'Git log' ; }; f"
-	lg = "!f() { gll=${1:-10}; git log -m --branches --graph --abbrev-commit --decorate --date=relative --pretty=tformat:'%C(bold blue)%h%C(reset)%C(auto)%d -%C(reset) %C(auto)%s%C(reset) %C(white)[a:%an] [c:%cn]%C(reset) %C(green)(%ar)%C(reset)' -${gll#-}; }; f"
+	lg = log -10 -m --graph --abbrev-commit --decorate --date=relative \
+		--pretty=tformat:'%C(bold blue)%h%C(reset)%C(auto)%d -%C(reset) %C(auto)%s%C(reset) %C(white)[a:%an] [c:%cn]%C(reset) %C(green)(%ar)%C(reset)'
 	lp = log -m --branches --graph --follow -p
 
 	ls = ls-files
