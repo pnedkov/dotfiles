@@ -1,55 +1,114 @@
 SHELL := /bin/sh
-TARGET ?= $(HOME)
+.DEFAULT_GOAL := help
 
-STOW  ?= stow
-STOW_FLAGS ?= -t $(TARGET)
-PACKAGES ?= bash git tmux vim zsh
+STOW ?= stow
+ifneq ($(filter command,$(origin ACTION) $(origin DRY_RUN)),)
+$(error Use S/R/D and N targets instead of ACTION= or DRY_RUN=)
+endif
+override ACTION := $(or $(sort $(filter S R D,$(MAKECMDGOALS))),S)
+override DRY_RUN := $(filter N,$(MAKECMDGOALS))
 
-.PHONY: help show check install uninstall restow dry
+# Bootstrap XDG without depending on an already installed shell configuration.
+ifeq ($(strip $(XDG_CONFIG_HOME)),)
+override XDG_CONFIG_HOME := $(HOME)/.config
+endif
+export XDG_CONFIG_HOME
+
+# Every top-level directory with a .stowrc is a Stow group.
+STOW_DIRS := $(patsubst %/.stowrc,%,$(wildcard */.stowrc))
+PACKAGES := $(sort $(foreach dir,$(STOW_DIRS),$(notdir $(patsubst %/,%,$(wildcard $(dir)/*/)))))
+RESERVED := help list check S R D N
+
+ifneq ($(word 2,$(ACTION)),)
+$(error Select only one action: S, R, or D)
+endif
+ifneq ($(filter S R D N,$(MAKECMDGOALS)),)
+ifeq ($(filter $(PACKAGES),$(MAKECMDGOALS)),)
+$(error Specify at least one package with S, R, D, or N. Run make list)
+endif
+endif
+ifneq ($(filter $(RESERVED),$(PACKAGES)),)
+$(error Reserved package names: $(filter $(RESERVED),$(PACKAGES)))
+endif
+ifneq ($(filter-out $(RESERVED) $(PACKAGES),$(MAKECMDGOALS)),)
+$(error Unknown package or command: $(filter-out $(RESERVED) $(PACKAGES),$(MAKECMDGOALS)). Run make list)
+endif
+
+# Stow operations can share destination directories, even across packages.
+.NOTPARALLEL:
+.PHONY: $(RESERVED) $(PACKAGES)
+
+STOW_ACTION_S := stow
+STOW_ACTION_R := restow
+STOW_ACTION_D := delete
+
+S R D N: ; @:
+
+# Read the target so new groups need no Makefile changes to create it.
+# Perl and Text::ParseWords are already required by GNU Stow. Match its resource
+# file quoting and expand variables without evaluating configuration as shell code.
+define stow_target
+perl -MText::ParseWords=shellwords -MGetopt::Long=GetOptionsFromArray -e '\
+    my @options; \
+    for my $$file ("$$ENV{HOME}/.stowrc", ".stowrc") { \
+        next unless -f $$file; \
+        open my $$fh, "<", $$file or die "Cannot read $$file: $$!\n"; \
+        while (<$$fh>) { push @options, shellwords($$_); } \
+    } \
+    Getopt::Long::Configure("pass_through"); \
+    my $$target; \
+    GetOptionsFromArray(\@options, "target|t=s" => \$$target) or die "Invalid Stow target\n"; \
+    defined $$target && length $$target or die "Set --target in .stowrc\n"; \
+    $$target =~ s/(?<!\\)\$$\{(\w+)\}|(?<!\\)\$$(\w+)/ \
+        my $$name = defined $$1 ? $$1 : $$2; \
+        exists $$ENV{$$name} ? $$ENV{$$name} : die "Undefined environment variable: $$name\n"; \
+    /ge; \
+    $$target =~ s{^~([^/]*)}{length $$1 ? (getpwnam($$1))[7] : $$ENV{HOME}}e; \
+    $$target =~ s/\\([\$$~])/$$1/g; \
+    length $$target or die "Empty Stow target\n"; \
+    print $$target;'
+endef
 
 help:
 	@printf '%s\n' \
-	  'dotfiles Makefile (GNU Stow)' \
+	  'Dotfiles (GNU Make and GNU Stow)' \
 	  '' \
-	  'Targets:' \
-	  '  make install     stow packages into $(HOME)' \
-	  '  make uninstall   remove stowed links' \
-	  '  make restow      re-apply (use after changes)' \
-	  '  make dry         show what would happen' \
-	  '  make show        show packages used' \
+	  '  make list                       list packages and their Stow groups' \
+	  '  make tmux zsh                   stow selected packages (S is the default)' \
+	  '  make S zsh                      stow explicitly' \
+	  '  make R zsh                      restow links' \
+	  '  make D zsh                      delete links' \
+	  '  make N zsh                      simulate stow' \
+	  '  make R N zsh                    simulate restow' \
 	  '' \
-	  'Overrides:' \
-	  '  make install PACKAGES="zsh tmux"' \
-	  '  make install STOW_FLAGS="--dotfiles -v"' \
-	  ''
+	  'S/R/D and N may appear anywhere; they apply to every requested package.' \
+	  'Run from the repository root. Each group .stowrc selects its target.'
 
-show:
-	@echo "STOW_FLAGS: $(STOW_FLAGS)"
-	@echo "PACKAGES:   $(PACKAGES)"
+list:
+	@printf '%-20s %s\n' 'PACKAGE' 'GROUPS'
+	@$(foreach package,$(PACKAGES),printf '%-20s %s\n' '$(package)' '$(strip $(foreach dir,$(STOW_DIRS),$(if $(wildcard $(dir)/$(package)/),$(dir))))';) :
 
 check:
-	@command -v $(STOW) >/dev/null 2>&1 || { \
-		echo "❌ '$(STOW)' is not installed."; \
-		echo "Install GNU Stow:"; \
-		echo "  macOS:   brew install stow"; \
-		echo "  Linux:   sudo pacman -S stow # Arch btw"; \
-		echo "  FreeBSD: pkg install stow"; \
-		exit 1; \
-	}
+	@command -v "$(STOW)" >/dev/null 2>&1 || { printf '%s\n' 'GNU Stow is required.' >&2; exit 1; }
 
-install: check
-	@echo "→ stow -S $(PACKAGES)"
-	@$(STOW) $(STOW_FLAGS) $(PACKAGES)
-
-uninstall: check
-	@echo "→ stow -D $(PACKAGES)"
-	@$(STOW) $(STOW_FLAGS) -D $(PACKAGES)
-
-restow: check
-	@echo "→ stow -R $(PACKAGES)"
-	@$(STOW) $(STOW_FLAGS) -R $(PACKAGES)
-
-dry: check
-	@echo "→ stow -n -v $(PACKAGES)"
-	@$(STOW) $(STOW_FLAGS) -n -v $(PACKAGES)
-
+$(PACKAGES): check
+	@set -eu; \
+	for dir in $(STOW_DIRS); do \
+	  [ -d "$$dir/$@" ] || continue; \
+	  ( \
+	    cd "$$dir"; \
+	    target=$$($(stow_target)); \
+	    printf '%s\n' "$(if $(DRY_RUN),simulate )$(STOW_ACTION_$(ACTION)): $$dir/$@ -> $$target"; \
+	    if [ ! -d "$$target" ]; then \
+	      if [ "$(ACTION)" = D ]; then \
+	        printf '%s\n' 'Target does not exist; nothing to remove.'; \
+	        exit 0; \
+	      elif [ -n "$(DRY_RUN)" ]; then \
+	        printf '%s\n' "Would create $$target and $(STOW_ACTION_$(ACTION)) $@."; \
+	        exit 0; \
+	      fi; \
+	      mkdir -p "$$target"; \
+	    fi; \
+	    "$(STOW)" -$(ACTION) $(if $(DRY_RUN),-n) "$@"; \
+	  ); \
+	done
