@@ -135,11 +135,13 @@ if has bat; then
 fi
 
 # set the primary prompt (PS1)
-if [ $(id -u) = 0 ]; then
-  PS1="\[\033[38;5;12m\][\[$(tput sgr0)\]\[\033[38;5;9m\]\u\[$(tput sgr0)\]\[\033[38;5;12m\]@\[$(tput sgr0)\]\[\033[38;5;7m\]\h\[$(tput sgr0)\]\[\033[38;5;12m\]]\[$(tput sgr0)\]\[\033[38;5;15m\]: \[$(tput sgr0)\]\[\033[38;5;7m\]\w\[$(tput sgr0)\]\[\033[38;5;12m\]>\[$(tput sgr0)\]\[\033[38;5;9m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
+prompt_reset=$(tput sgr0)
+if (( EUID == 0 )); then
+  PS1="\[\033[38;5;12m\][\[$prompt_reset\]\[\033[38;5;9m\]\u\[$prompt_reset\]\[\033[38;5;12m\]@\[$prompt_reset\]\[\033[38;5;7m\]\h\[$prompt_reset\]\[\033[38;5;12m\]]\[$prompt_reset\]\[\033[38;5;15m\]: \[$prompt_reset\]\[\033[38;5;7m\]\w\[$prompt_reset\]\[\033[38;5;12m\]>\[$prompt_reset\]\[\033[38;5;9m\]\\$\[$prompt_reset\]\[\033[38;5;15m\] \[$prompt_reset\]"
 else
-  PS1="\[\033[38;5;12m\][\[$(tput sgr0)\]\[\033[38;5;10m\]\u\[$(tput sgr0)\]\[\033[38;5;12m\]@\[$(tput sgr0)\]\[\033[38;5;7m\]\h\[$(tput sgr0)\]\[\033[38;5;12m\]]\[$(tput sgr0)\]\[\033[38;5;15m\]: \[$(tput sgr0)\]\[\033[38;5;7m\]\w\[$(tput sgr0)\]\[\033[38;5;12m\]>\[$(tput sgr0)\]\[\033[38;5;10m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
+  PS1="\[\033[38;5;12m\][\[$prompt_reset\]\[\033[38;5;10m\]\u\[$prompt_reset\]\[\033[38;5;12m\]@\[$prompt_reset\]\[\033[38;5;7m\]\h\[$prompt_reset\]\[\033[38;5;12m\]]\[$prompt_reset\]\[\033[38;5;15m\]: \[$prompt_reset\]\[\033[38;5;7m\]\w\[$prompt_reset\]\[\033[38;5;12m\]>\[$prompt_reset\]\[\033[38;5;10m\]\\$\[$prompt_reset\]\[\033[38;5;15m\] \[$prompt_reset\]"
 fi
+unset prompt_reset
 
 # start bash-git-promp if available
 if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
