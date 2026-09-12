@@ -22,7 +22,7 @@
 	c = commit
 	ca = commit -a
 	ci = commit -i
-	cf = "!f() { vim $1; git ci $1; }; f"
+	cf = "!f() { vim -- \"$1\" && git ci -- \"$1\"; }; f"
 	cp = commit -p
 	cm = commit -m
 	cam = commit -am
@@ -124,8 +124,8 @@
 	wn = show --name-only --color -m
 	ws = show --color -C --stat
 
-	ours = "!f() { git checkout --ours $@ && git add $@; }; f"
-	theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+	ours = "!f() { git checkout --ours -- \"$@\" && git add -- \"$@\"; }; f"
+	theirs = "!f() { git checkout --theirs -- \"$@\" && git add -- \"$@\"; }; f"
 
 	whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
 	whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
