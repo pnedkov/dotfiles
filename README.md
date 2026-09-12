@@ -83,9 +83,9 @@ Letters can appear anywhere, without hyphens, and apply to all selected packages
 - **XDG_CONFIG_HOME:** No initial setup is required. The Makefile defaults
   `XDG_CONFIG_HOME` to `~/.config` and creates missing target directories.
 
-- **Git identity:** Set `user.name` and `user.email` per repository. Remotes
-  matching `git@github.com:pnedkov/**` also load `[user]` settings from
-  `~/.config/git-private/personal.conf`:
+- **Git identity:** Set your default identity in
+  `~/.config/git-private/personal.conf`. Override `user.name` and `user.email`
+  per repository when needed:
 
   ```gitconfig
   [user]
