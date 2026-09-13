@@ -38,4 +38,4 @@ unfocused-split-opacity = 1
 macos-titlebar-proxy-icon = hidden
 title = " "
 
-custom-shader = ~/.config/ghostty/shaders/cursor.glsl
+custom-shader = shaders/cursor.glsl
