@@ -46,10 +46,10 @@
 	g = grep -p
 
 	l = log -10 --oneline --graph --decorate
-	lo = "!f() { git log --no-color --no-decorate | bat -n -l 'Git log' ; }; f"
+	lo = "!f() { git log --no-color --no-decorate \"$@\" | bat -n -l 'Git log'; }; f"
 	lg = log -10 -m --graph --abbrev-commit --decorate --date=relative \
 		--pretty=tformat:'%C(bold blue)%h%C(reset)%C(auto)%d -%C(reset) %C(auto)%s%C(reset) %C(white)[a:%an] [c:%cn]%C(reset) %C(green)(%ar)%C(reset)'
-	lp = log -m --branches --graph --follow -p
+	lp = log -m --graph --follow -p
 
 	ls = ls-files
 	lsf = "!git ls-files | grep -i"
