@@ -35,6 +35,12 @@ doas pkg install bash bat cmdwatch eza fd-find fzf git git-delta gmake ripgrep \
 
 On FreeBSD, use **`gmake`** instead of `make` in the examples below.
 
+For Bash login shells on FreeBSD, create `~/.bash_profile` if missing, containing:
+
+```bash
+[[ -f ~/.bashrc ]] && . ~/.bashrc
+```
+
 ## Install
 
 ```sh
