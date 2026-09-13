@@ -30,7 +30,6 @@
 	cad = commit -a --amend
 
 	d = diff
-	dc = diff --cached
 	ds = diff --staged
 	dt = difftool
 	dlc = difftool --cached
@@ -39,7 +38,6 @@
 	dck = diff --cached --check
 
 	f = fetch
-	fp = fetch -p
 	fo = fetch origin
 	fu = fetch upstream
 
@@ -73,7 +71,6 @@
 
 	pl = pull
 	plo = pull origin
-	plb = pull --rebase
 	plum = "!f() { mbranch=$(git symbolic-ref --short refs/remotes/upstream/HEAD) && mbranch=${mbranch#upstream/} && git pull upstream \"$mbranch\"; }; f"
 	plom = "!f() { mbranch=$(git symbolic-ref --short refs/remotes/origin/HEAD) && mbranch=${mbranch#origin/} && git pull origin \"$mbranch:$mbranch\"; }; f"
 
@@ -85,13 +82,8 @@
 	rbh = "!f() { git rebase -i HEAD~$1; }; f"
 
 	re = reset
-	rh = reset HEAD
 	reh = reset --hard
-	rem = reset --mixed
 	res = reset --soft
-	rehh = reset --hard HEAD
-	remh = reset --mixed HEAD
-	resh = reset --soft HEAD
 
 	r = remote
 	ra = remote add
