@@ -22,7 +22,13 @@
 	c = commit
 	ca = commit -a
 	ci = commit -i
-	cf = "!f() { vim -- \"$1\" && git ci -- \"$1\"; }; f"
+	cf = "!f() { \
+		[ \"$#\" -eq 1 ] || { echo 'Usage: git cf <file>' >&2; return 1; }; \
+		cd \"./${GIT_PREFIX}\" || return; \
+		editor=$(git var GIT_EDITOR) || return; \
+		case \"$1\" in /*) file=$1 ;; *) file=./$1 ;; esac; \
+		sh -c \"$editor \\\"\\$@\\\"\" - \"$file\" && git ci -- \"$file\"; \
+	}; f"
 	cp = commit -p
 	cm = commit -m
 	cam = commit -am
@@ -67,19 +73,31 @@
 	psf = push -f
 	psa = push --all
 	psaf = push --all -f
-	psum = "!f() { mbranch=$(git symbolic-ref --short refs/remotes/upstream/HEAD) && mbranch=${mbranch#upstream/} && git push upstream \"$mbranch\"; }; f"
 
 	pl = pull
 	plo = pull origin
-	plum = "!f() { mbranch=$(git symbolic-ref --short refs/remotes/upstream/HEAD) && mbranch=${mbranch#upstream/} && git pull upstream \"$mbranch\"; }; f"
-	plom = "!f() { mbranch=$(git symbolic-ref --short refs/remotes/origin/HEAD) && mbranch=${mbranch#origin/} && git pull origin \"$mbranch:$mbranch\"; }; f"
+	plom = "!f() { \
+		mbranch=$(git symbolic-ref --quiet refs/remotes/origin/HEAD) || { echo 'Missing origin/HEAD. Run: git remote set-head origin -a' >&2; return 1; }; \
+		mbranch=${mbranch#refs/remotes/origin/}; \
+		git pull --rebase origin \"$mbranch:$mbranch\" \"$@\"; \
+	}; f"
+	plum = "!f() { \
+		mbranch=$(git symbolic-ref --quiet refs/remotes/upstream/HEAD) || { echo 'Missing upstream/HEAD. Run: git remote set-head upstream -a' >&2; return 1; }; \
+		mbranch=${mbranch#refs/remotes/upstream/}; \
+		git pull --rebase upstream \"$mbranch:$mbranch\" \"$@\"; \
+	}; f"
 
 	rb = rebase
 	rba = rebase --abort
 	rbc = rebase --continue
 	rbi = rebase --interactive
 	rbs = rebase --skip
-	rbh = "!f() { git rebase -i HEAD~$1; }; f"
+	rbh = "!f() { \
+		count=${1-1}; \
+		case \"$count\" in ''|*[!0-9]*) echo 'Commit count must be a non-negative integer.' >&2; return 1 ;; esac; \
+		[ \"$#\" -eq 0 ] || shift; \
+		git rebase -i \"HEAD~$count\" \"$@\"; \
+	}; f"
 
 	re = reset
 	reh = reset --hard
@@ -116,13 +134,8 @@
 	wn = show --name-only --color -m
 	ws = show --color -C --stat
 
-	ours = "!f() { git checkout --ours -- \"$@\" && git add -- \"$@\"; }; f"
-	theirs = "!f() { git checkout --theirs -- \"$@\" && git add -- \"$@\"; }; f"
-
-	whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
 	whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
 
-	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch -f --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
 [diff]
 	tool = vimdiff
 [difftool]
