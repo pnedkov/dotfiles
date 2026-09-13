@@ -175,14 +175,6 @@ unset eza_common is_linux is_macos is_freebsd
 unset zsh_plugins plugin_dir plugin plugin_file zsh_cache_dir zsh_state_dir less_state_dir
 
 #
-# Additional configuration
-#
-for _file in "${XDG_CONFIG_HOME:-$HOME/.config}"/zsh-local/*.zsh(N); do
-  source "$_file"
-done
-unset _file
-
-#
 # Functions
 #
 
@@ -230,3 +222,11 @@ ccat() {
 #if [ -x "$(command -v tmux)" ] && [ -z "${TMUX}" ]; then
 #    exec tmux new-session -A -s ${USER} >/dev/null 2>&1
 #fi
+
+#
+# Additional configuration
+#
+for _file in "${XDG_CONFIG_HOME:-$HOME/.config}"/zsh-local/*.zsh(N); do
+  source "$_file"
+done
+unset _file
