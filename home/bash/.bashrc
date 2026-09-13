@@ -19,7 +19,7 @@ has() { [[ -n $1 ]] && command -v "$1" >/dev/null 2>&1; }
 path_export() { [[ -d "$1" && ":$PATH:" != *":$1:"* ]] && export PATH="$1:$PATH"; }
 
 # User-specific binaries
-[[ -z $TMUX ]] && path_export "$HOME/.local/bin"
+path_export "$HOME/.local/bin"
 
 # State directories
 less_state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/less"
