@@ -61,15 +61,15 @@ export MANROFFOPT="-P -c"
 # Aliases
 #
 alias ..='cd ..'
-alias ls='ls --color=always'
+alias ls='ls --color=auto'
 alias l='ls'
 alias la='ls -a'
 alias ll='ls -l'
 alias lla='ls -la'
 alias lld='ls -ld'
 alias lln='ls -ln'
-alias grep='grep --color=always'
-alias diff='diff --color=always'
+alias grep='grep --color=auto'
+alias diff='diff --color=auto'
 alias tree='tree -I .git'
 (( ${+is_linux} )) && alias dmesg='dmesg -L=always'
 if (( $+commands[ifconfig] )); then
