@@ -113,6 +113,10 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 
     float progress = blend(clamp((iTime - iTimeCursorChange) / DURATION, 0.0, 1));
     float easedProgress = ease(progress);
+    // Once the trail has faded, preserve the terminal image without dividing by zero.
+    if (easedProgress <= 0.0) {
+        return;
+    }
 
     //Distance between cursors determine the total length of the parallelogram;
     vec2 centerCC = getRectangleCenter(currentCursor);
@@ -134,7 +138,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
         float sdfCursor = getSdfRectangle(vu, currentCursor.xy - (currentCursor.zw * offsetFactor), currentCursor.zw * 0.5);
         float sdfTrail = getSdfParallelogram(vu, v0, v1, v2, v3);
 
-        newColor = mix(newColor, TRAIL_COLOR_ACCENT, 1.0 - smoothstep(sdfTrail, -0.01, 0.001));
+        newColor = mix(newColor, TRAIL_COLOR_ACCENT, 1.0 - smoothstep(-0.01, 0.001, sdfTrail));
         newColor = mix(newColor, TRAIL_COLOR, antialising(sdfTrail));
         newColor = mix(fragColor, newColor, 1.0 - alphaModifier);
         fragColor = mix(newColor, fragColor, step(sdfCursor, 0));
