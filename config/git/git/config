@@ -67,12 +67,9 @@
 	oc = checkout .
 	op = checkout -p
 
-	pr = prune -v
-
 	ps = push
-	psf = push -f
+	psf = push --force-with-lease
 	psa = push --all
-	psaf = push --all -f
 
 	pl = pull
 	plo = pull origin
@@ -125,7 +122,7 @@
 	sd = stash drop
 	sl = stash list
 	sp = stash pop
-	ss = stash save
+	ss = stash push
 	sw = stash show
 
 	tags = tag -n99
