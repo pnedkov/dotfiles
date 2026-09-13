@@ -185,13 +185,20 @@ genpass() {
     return 1
   fi
 
-  local len=${1:-16}
-  [[ $len == <-> ]] || len=16
+  local len=${1-16} random password
+  local LC_ALL=C
+  if ! [[ $len =~ ^[1-9][0-9]{0,3}$ ]] || (( len > 1024 )); then
+    printf '%s\n' 'Password length must be an integer from 1 to 1024.' >&2
+    return 1
+  fi
 
-  LC_ALL=C openssl rand -base64 4096 |
-    tr -cd '[:alnum:]' |
-    head -c "$len"
-  echo
+  random=$(openssl rand -base64 4096) || return 1
+  password=${random//[^[:alnum:]]/}
+  if (( ${#password} < len )); then
+    printf '%s\n' 'Could not generate a password of the requested length.' >&2
+    return 1
+  fi
+  printf '%s\n' "${password:0:$len}"
 }
 
 # Print only non-empty and non-commented lines
