@@ -56,7 +56,7 @@
 	lp = log -m --graph --follow -p
 
 	ls = ls-files
-	lsf = "!git ls-files | grep -i"
+	lsf = "!git ls-files | grep -i --"
 
 	m = merge
 	ma = merge --abort
