@@ -3,12 +3,6 @@ float ease(float x) {
     return pow(1.0 - x, 10.0);
 }
 
-float sdBox(in vec2 p, in vec2 xy, in vec2 b)
-{
-    vec2 d = abs(p - xy) - b;
-    return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
-}
-
 float getSdfRectangle(in vec2 p, in vec2 xy, in vec2 b)
 {
     vec2 d = abs(p - xy) - b;
@@ -73,10 +67,7 @@ vec2 getRectangleCenter(vec4 rectangle) {
 
 const vec4 TRAIL_COLOR = vec4(0.478, 0.514, 0.486, 0.38);        // #7a837c cliff_green
 const vec4 TRAIL_COLOR_ACCENT = vec4(0.655, 0.847, 0.690, 0.28); // #a7d8b0 brand_of_sacrifice_green_1
-const vec4 CURRENT_CURSOR_COLOR = TRAIL_COLOR;
-const vec4 PREVIOUS_CURSOR_COLOR = TRAIL_COLOR;
 const float DURATION = .2;
-const float OPACITY = .2;
 // Don't draw trail within that distance * cursor size.
 // This prevents trails from appearing when typing.
 const float DRAW_THRESHOLD = 1.5;
