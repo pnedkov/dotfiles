@@ -134,6 +134,9 @@ if has bat; then
   alias cat='bat -p'
 fi
 
+unset is_linux is_macos is_freebsd eza_common \
+  git_compl_file docker_compl_file kubectl_compl_file terraform_compl_file
+
 # set the primary prompt (PS1)
 prompt_reset=$(tput sgr0)
 if (( EUID == 0 )); then
