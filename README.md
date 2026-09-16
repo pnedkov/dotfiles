@@ -89,15 +89,23 @@ Letters can appear anywhere, without hyphens, and apply to all selected packages
 - **XDG_CONFIG_HOME:** No initial setup is required. The Makefile defaults
   `XDG_CONFIG_HOME` to `~/.config` and creates missing target directories.
 
-- **Git identity:** Set your default identity in
-  `~/.config/git-private/personal.conf`. Override `user.name` and `user.email`
-  per repository when needed:
+- **Zsh local configuration:** Put machine-specific settings in
+  `$XDG_CONFIG_HOME/zsh-local/*.zsh` (defaults to `~/.config/zsh-local/*.zsh`).
+  These files load after the main configuration and can override aliases and functions.
 
-  ```gitconfig
-  [user]
-      name = Your Name
-      email = you@example.com
+- **Git identity:** Create your private configuration and set your default identity:
+
+  ```sh
+  mkdir -p "$HOME/.config/git-private"
+  git config --file "$HOME/.config/git-private/personal.conf" user.name 'Your Name'
+  git config --file "$HOME/.config/git-private/personal.conf" user.email 'you@example.com'
   ```
+
+  Commits require an explicit identity (`user.useConfigOnly = true`). Override
+  `user.name` and `user.email` per repository when needed.
+
+  Use `--file` for private settings: `git config --global` can edit the Stow-managed
+  Git configuration in this repository.
 
 - **tmux TPM and plugins:** When TPM is missing, starting tmux automatically
   installs TPM and all configured plugins. For plugins added later, press
