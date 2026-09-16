@@ -210,13 +210,8 @@ genpass() {
 
 # Print only non-empty and non-commented lines
 ccat() {
-  if (( $# == 0 )); then
-    printf 'Usage: %s <file1> [file2 ...]\n' "${FUNCNAME[0]}" >&2
-    return 1
-  fi
-
   # Drop comment-only lines and blank/whitespace-only lines
-  sed -E '/^[[:space:]]*#/d; /^[[:space:]]*$/d' -- "$@"
+  sed -E '/^[[:space:]]*#/d; /^[[:space:]]*$/d' "$@"
 }
 
 # set cursor
