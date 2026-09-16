@@ -72,7 +72,7 @@ alias lld='ls -ld'
 alias lln='ls -ln'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
-alias tree='tree -I .git'
+(( $+commands[tree] )) && alias tree='tree -I .git'
 (( ${+is_linux} )) && alias dmesg='dmesg -L=always'
 if (( $+commands[ifconfig] )); then
   alias ip4="ifconfig | grep 'inet '"
