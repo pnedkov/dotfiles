@@ -28,6 +28,7 @@ if [[ ! -d "$zsh_cache_dir/zcompcache" || ! -d "$zsh_state_dir" || ! -d "$less_s
 fi
 
 # Enable completions
+zstyle ':completion:*' menu select
 zstyle ':completion:*' cache-path "$zsh_cache_dir/zcompcache"
 autoload -Uz compinit
 compinit -d "$zsh_cache_dir/zcompdump"
@@ -40,15 +41,16 @@ HISTFILE="$zsh_state_dir/history" # History savefile location
 HISTSIZE=1000000              # Number of history items to save in memory
 SAVEHIST=1000000              # Number of history items to save in file
 setopt APPEND_HISTORY         # multiple sessions append to same history file (rather than last)
+setopt EXTENDED_HISTORY       # changes the history file format from simple command lines to a structured format with metadata
+setopt INC_APPEND_HISTORY     # adds history incrementally to share it across sessions
 setopt HIST_IGNORE_ALL_DUPS   # when adding a new entry delete older duplicates
 setopt HIST_IGNORE_DUPS       # don't add a new entry if it's an immediate duplicate
-setopt INC_APPEND_HISTORY     # adds history incrementally to share it across sessions
+setopt HIST_IGNORE_SPACE      # prevents commands prefixed with a space from being saved to the history
+setopt HIST_EXPIRE_DUPS_FIRST # expire duplicate entries first when the history list needs to be trimmed
+setopt HIST_VERIFY            # prevents immediate execution when using history expansion (!! and !$)
+setopt HIST_REDUCE_BLANKS     # automatically removes superfluous whitespace
+setopt HIST_FIND_NO_DUPS      # prevents the display of duplicate history entries
 unsetopt SHARE_HISTORY        # share history between sessions
-setopt EXTENDED_HISTORY
-setopt HIST_IGNORE_SPACE
-setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_VERIFY
-setopt HIST_REDUCE_BLANKS
 
 # Exports
 export LESS='-Q -F -R --use-color -Dd+r$Du+c$'
