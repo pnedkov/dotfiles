@@ -86,7 +86,7 @@ if has('timers')
   endif
   let s:auto_reload_timer = timer_start(
         \ 1000,
-        \ {timer -> execute('checktime | redraw')},
+        \ {timer -> execute('checktime')},
         \ {'repeat': -1})
 endif
 
