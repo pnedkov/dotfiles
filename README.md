@@ -96,10 +96,16 @@ Letters can appear anywhere, without hyphens, and apply to all selected packages
 - **Git identity:** Create your private configuration and set your default identity:
 
   ```sh
-  mkdir -p "$HOME/.config/git-private"
-  git config --file "$HOME/.config/git-private/personal.conf" user.name 'Your Name'
-  git config --file "$HOME/.config/git-private/personal.conf" user.email 'you@example.com'
+  git_private_dir="${XDG_CONFIG_HOME:-$HOME/.config}/git-private"
+  mkdir -p "$git_private_dir"
+  git config --file "$git_private_dir/personal.conf" user.name 'Your Name'
+  git config --file "$git_private_dir/personal.conf" user.email 'you@example.com'
   ```
+
+  Git includes this file relative to its configuration directory. The Makefile
+  disables Stow directory folding for the Git package so this also works with a
+  custom `XDG_CONFIG_HOME`. Run `make R git` once for an existing installation to
+  replace the directory symlink with individual file links.
 
   Commits require an explicit identity (`user.useConfigOnly = true`). Override
   `user.name` and `user.email` per repository when needed.

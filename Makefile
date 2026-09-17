@@ -42,6 +42,9 @@ STOW_ACTION_S := stow
 STOW_ACTION_R := restow
 STOW_ACTION_D := delete
 
+# Relative Git includes need a real target directory, not a folded symlink.
+STOW_FLAGS_git := --no-folding
+
 S R D N: ; @:
 
 # Read the target so new groups need no Makefile changes to create it.
@@ -109,6 +112,6 @@ $(PACKAGES): check
 	      fi; \
 	      mkdir -p "$$target"; \
 	    fi; \
-	    "$(STOW)" -$(ACTION) $(if $(DRY_RUN),-n) "$@"; \
+	    "$(STOW)" -$(ACTION) $(if $(DRY_RUN),-n) $(STOW_FLAGS_$@) "$@"; \
 	  ); \
 	done

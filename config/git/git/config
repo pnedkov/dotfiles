@@ -1,7 +1,7 @@
 [user]
 	useConfigOnly = true
 [include]
-	path = ~/.config/git-private/personal.conf
+	path = ../git-private/personal.conf
 [alias]
 	a = add
 	aa = add --all
