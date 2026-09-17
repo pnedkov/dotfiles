@@ -93,6 +93,12 @@ Letters can appear anywhere, without hyphens, and apply to all selected packages
   `$XDG_CONFIG_HOME/zsh-local/*.zsh` (defaults to `~/.config/zsh-local/*.zsh`).
   These files load after the main configuration and can override aliases and functions.
 
+- **Zsh fzf previews:** `Ctrl-T` previews files with `bat` and directories with
+  `eza`; `Alt-C` previews directory contents. Press `Ctrl-/` inside either picker
+  to toggle the preview. Previews appear on the right, or below the results in
+  narrow terminals. File previews show up to 500 lines; directory trees use two
+  levels. The existing search behavior and `Ctrl-R` history picker are unchanged.
+
 - **Git identity:** Create your private configuration and set your default identity:
 
   ```sh

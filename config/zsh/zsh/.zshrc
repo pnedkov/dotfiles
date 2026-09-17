@@ -143,7 +143,27 @@ bindkey '^[[1;5D' backward-word
 #bindkey '^ ' autosuggest-accept
 
 # fzf
-(( $+commands[fzf] )) && source <(fzf --zsh)
+if (( $+commands[fzf] )); then
+  if (( $+commands[bat] && $+commands[eza] )); then
+    export FZF_CTRL_T_OPTS="
+      --preview 'if [ -d {} ]; then
+        eza --tree --level=2 --follow-symlinks --all --color=always --icons=always --ignore-glob=.git -- {}
+      elif [ -f {} ]; then
+        bat --style=numbers --color=always --paging=never --line-range=:500 -- {}
+      fi'
+      --preview-window 'right,50%,border-left,<40(down,50%,border-top)'
+      --bind 'ctrl-/:toggle-preview'
+    "
+  fi
+  if (( $+commands[eza] )); then
+    export FZF_ALT_C_OPTS="
+      --preview 'eza --tree --level=2 --follow-symlinks --all --color=always --icons=always --ignore-glob=.git -- {}'
+      --preview-window 'right,50%,border-left,<40(down,50%,border-top)'
+      --bind 'ctrl-/:toggle-preview'
+    "
+  fi
+  source <(fzf --zsh)
+fi
 
 # Starship
 if (( $+commands[starship] )); then
