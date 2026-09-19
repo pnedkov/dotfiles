@@ -111,7 +111,21 @@ fi
 (( $+commands[git] )) && alias g='git'
 
 # docker
-(( $+commands[docker] )) && alias d='docker'
+if (( $+commands[docker] )); then
+  alias d='docker'
+
+  docker() {
+    case "${1-}" in
+      psw)
+        shift
+        command docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Label "com.docker.compose.project.working_dir"}}\t{{.RunningFor}}\t{{.Status}}\t{{.Ports}}\t{{.Networks}}' "$@"
+        ;;
+      *)
+        command docker "$@"
+        ;;
+    esac
+  }
+fi
 
 # kubectl
 (( $+commands[kubectl] )) && alias k='kubectl'
