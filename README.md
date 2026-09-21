@@ -99,19 +99,28 @@ Letters can appear anywhere, without hyphens, and apply to all selected packages
   narrow terminals. File previews show up to 500 lines; directory trees use two
   levels. The existing search behavior and `Ctrl-R` history picker are unchanged.
 
-- **Git identity:** Create your private configuration and set your default identity:
+- **Git identity:** When `git` is selected for stow or restow, the Makefile prompts
+  for your name and email if `$XDG_CONFIG_HOME/git/id.conf` is missing
+  (defaults to `~/.config/git/id.conf`). Git is processed last, and
+  the prompts appear only after all selected packages deploy successfully.
+
+  Existing identity files are left untouched. Dry runs and deletion skip setup.
+  Non-interactive runs print a reminder instead of prompting; run `make git`
+  from a terminal afterward. Both answers are required before the file is created.
+
+  To configure or update the identity manually:
 
   ```sh
-  git_private_dir="${XDG_CONFIG_HOME:-$HOME/.config}/git-private"
-  mkdir -p "$git_private_dir"
-  git config --file "$git_private_dir/personal.conf" user.name 'Your Name'
-  git config --file "$git_private_dir/personal.conf" user.email 'you@example.com'
+  git_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/git"
+  mkdir -p "$git_config_dir"
+  git config --file "$git_config_dir/id.conf" user.name 'Your Name'
+  git config --file "$git_config_dir/id.conf" user.email 'you@example.com'
   ```
 
-  Git includes this file relative to its configuration directory. The Makefile
-  disables Stow directory folding for the Git package so this also works with a
-  custom `XDG_CONFIG_HOME`. Run `make R git` once for an existing installation to
-  replace the directory symlink with individual file links.
+  Git loads `id.conf` beside its installed `config` file. The Git package uses
+  Stow's `--no-folding` option: `git/` is a real directory, `config` is a symlink,
+  and `id.conf` is a local file outside the checkout. This also supports a custom
+  `XDG_CONFIG_HOME`.
 
   Commits require an explicit identity (`user.useConfigOnly = true`). Override
   `user.name` and `user.email` per repository when needed.

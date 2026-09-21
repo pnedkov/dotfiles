@@ -42,7 +42,7 @@ STOW_ACTION_S := stow
 STOW_ACTION_R := restow
 STOW_ACTION_D := delete
 
-# Relative Git includes need a real target directory, not a folded symlink.
+# Keep the Git directory real so id.conf stays outside the checkout.
 STOW_FLAGS_git := --no-folding
 
 S R D N: ; @:
@@ -94,6 +94,11 @@ list:
 check:
 	@command -v "$(STOW)" >/dev/null 2>&1 || { printf '%s\n' 'GNU Stow is required.' >&2; exit 1; }
 
+# Finish all selected packages before Git's first-run identity setup.
+ifneq ($(filter git,$(MAKECMDGOALS)),)
+git: $(filter-out git,$(filter $(PACKAGES),$(MAKECMDGOALS)))
+endif
+
 $(PACKAGES): check
 	@set -eu; \
 	for dir in $(STOW_DIRS); do \
@@ -114,4 +119,7 @@ $(PACKAGES): check
 	    fi; \
 	    "$(STOW)" -$(ACTION) $(if $(DRY_RUN),-n) $(STOW_FLAGS_$@) "$@"; \
 	  ); \
-	done
+	done; \
+	if [ "$@" = git ] && [ "$(ACTION)" != D ] && [ -z "$(DRY_RUN)" ]; then \
+	  sh scripts/setup-git-identity.sh; \
+	fi
