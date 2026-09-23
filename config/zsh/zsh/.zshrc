@@ -214,6 +214,13 @@ unset zsh_plugins plugin_dir plugin plugin_file zsh_cache_dir zsh_state_dir less
 # Functions
 #
 
+# Go to the Git repository root
+groot() {
+  local root
+  root=$(git rev-parse --show-toplevel) || return
+  cd -- "$root"
+}
+
 # Generate passwords
 genpass() {
   if (( $# > 1 )); then
