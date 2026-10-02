@@ -132,6 +132,10 @@
 	ws = show --color -C --stat
 
 	whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+	which = "!f() { \
+		[ \"$#\" -eq 1 ] || { echo 'Usage: git which <alias>' >&2; return 1; }; \
+		git config --get \"alias.$1\"; \
+	}; f"
 
 [diff]
 	tool = vimdiff
