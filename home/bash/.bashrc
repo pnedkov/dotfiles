@@ -56,7 +56,7 @@ fi
 
 # eza
 if has eza; then
-  eza_common='--icons --git --time-style "+%Y %b %e %H:%M"'
+  eza_common='--icons --time-style "+%Y %b %e %H:%M"'
 
   alias ls="e"
   alias ll="el"

@@ -85,7 +85,7 @@ fi
 
 # eza
 if (( $+commands[eza] )); then
-  local eza_common='--icons --git --time-style "+%Y %b %e %H:%M"'
+  local eza_common='--icons --time-style "+%Y %b %e %H:%M"'
 
   alias ls="e"
   alias ll="el"
