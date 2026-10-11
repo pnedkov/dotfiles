@@ -5,6 +5,10 @@
 # Return if non-interactive
 [[ $- != *i* ]] && return
 
+# =============================================================================
+# Environment
+# =============================================================================
+
 # Supported OS
 case "$(uname -s)" in
   Linux)   is_linux=1 ;; # Arch btw
@@ -12,9 +16,7 @@ case "$(uname -s)" in
   FreeBSD) is_freebsd=1 ;;
 esac
 
-#
-# Helpers
-#
+# Startup helpers
 has() { [[ -n $1 ]] && command -v "$1" >/dev/null 2>&1; }
 path_export() { [[ -d "$1" && ":$PATH:" != *":$1:"* ]] && export PATH="$1:$PATH"; }
 
@@ -33,10 +35,23 @@ export LESSHISTFILE="$less_state_dir/history"
 export MANPAGER="less -R --use-color -Dd+r -Du+b"
 export MANROFFOPT="-P -c"
 export NPM_CONFIG_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/npm"
-has vim && export EDITOR=vim
-unset less_state_dir
 
+# =============================================================================
+# Shell settings
+# =============================================================================
+
+# set the primary prompt (PS1)
+prompt_reset=$(tput sgr0)
+if (( EUID == 0 )); then
+  PS1="\[\033[38;5;12m\][\[$prompt_reset\]\[\033[38;5;9m\]\u\[$prompt_reset\]\[\033[38;5;12m\]@\[$prompt_reset\]\[\033[38;5;7m\]\h\[$prompt_reset\]\[\033[38;5;12m\]]\[$prompt_reset\]\[\033[38;5;15m\]: \[$prompt_reset\]\[\033[38;5;7m\]\w\[$prompt_reset\]\[\033[38;5;12m\]>\[$prompt_reset\]\[\033[38;5;9m\]\\$\[$prompt_reset\]\[\033[38;5;15m\] \[$prompt_reset\]"
+else
+  PS1="\[\033[38;5;12m\][\[$prompt_reset\]\[\033[38;5;10m\]\u\[$prompt_reset\]\[\033[38;5;12m\]@\[$prompt_reset\]\[\033[38;5;7m\]\h\[$prompt_reset\]\[\033[38;5;12m\]]\[$prompt_reset\]\[\033[38;5;15m\]: \[$prompt_reset\]\[\033[38;5;7m\]\w\[$prompt_reset\]\[\033[38;5;12m\]>\[$prompt_reset\]\[\033[38;5;10m\]\\$\[$prompt_reset\]\[\033[38;5;15m\] \[$prompt_reset\]"
+fi
+
+# =============================================================================
 # Aliases
+# =============================================================================
+
 alias ..='cd ..'
 alias ls='ls --color=auto'
 alias l='ls'
@@ -49,6 +64,32 @@ alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip -color=auto'
 [[ -n $is_linux ]] && alias dmesg='dmesg -L=always'
+
+# =============================================================================
+# Keybindings
+# =============================================================================
+
+# Use emacs key bindings
+set -o emacs
+
+# Ctrl-Backspace / Ctrl-H: delete word backward
+bind '"\C-h": backward-kill-word'
+
+# Ctrl-R: reverse incremental history search
+bind '"\C-r": reverse-search-history'
+
+# Ctrl-Left / Ctrl-Right: word navigation
+bind '"\e[1;5D": backward-word'
+bind '"\e[1;5C": forward-word'
+
+# enable forward search with Ctrl-S
+stty -ixon
+
+# =============================================================================
+# Tools
+# =============================================================================
+
+# ifconfig
 if has ifconfig; then
   alias ip4="ifconfig | grep 'inet '"
   alias ip6="ifconfig | grep 'inet6 '"
@@ -77,19 +118,20 @@ if [[ -f /etc/arch-release && $EUID -eq 0 ]]; then
   alias paclist="pacman -Ql"
 fi
 
-# neovim
+# Editors
+has vim && export EDITOR=vim
 if has nvim; then
   alias nv='nvim'
   alias vimdiff='nvim -d'
   export EDITOR=nvim
 fi
 
-# aws
+# AWS
 if has aws ; then
   alias whoaws='aws sts get-caller-identity'
 fi
 
-# git
+# Git
 if has git; then
   alias g='git'
   git_compl_file="/usr/share/git/completion/git-completion.bash"
@@ -99,7 +141,7 @@ if has git; then
   fi
 fi
 
-# docker
+# Docker
 if has docker; then
   alias d='docker'
   docker_compl_file="/usr/share/bash-completion/completions/docker"
@@ -119,7 +161,7 @@ if has kubectl; then
   fi
 fi
 
-# terraform
+# Terraform
 if has terraform; then
   alias t='terraform'
   terraform_compl_file="/usr/share/bash-completion/completions/terraform"
@@ -134,56 +176,9 @@ if has bat; then
   alias cat='bat -p'
 fi
 
-unset is_linux is_macos is_freebsd eza_common \
-  git_compl_file docker_compl_file kubectl_compl_file terraform_compl_file
-
-# set the primary prompt (PS1)
-prompt_reset=$(tput sgr0)
-if (( EUID == 0 )); then
-  PS1="\[\033[38;5;12m\][\[$prompt_reset\]\[\033[38;5;9m\]\u\[$prompt_reset\]\[\033[38;5;12m\]@\[$prompt_reset\]\[\033[38;5;7m\]\h\[$prompt_reset\]\[\033[38;5;12m\]]\[$prompt_reset\]\[\033[38;5;15m\]: \[$prompt_reset\]\[\033[38;5;7m\]\w\[$prompt_reset\]\[\033[38;5;12m\]>\[$prompt_reset\]\[\033[38;5;9m\]\\$\[$prompt_reset\]\[\033[38;5;15m\] \[$prompt_reset\]"
-else
-  PS1="\[\033[38;5;12m\][\[$prompt_reset\]\[\033[38;5;10m\]\u\[$prompt_reset\]\[\033[38;5;12m\]@\[$prompt_reset\]\[\033[38;5;7m\]\h\[$prompt_reset\]\[\033[38;5;12m\]]\[$prompt_reset\]\[\033[38;5;15m\]: \[$prompt_reset\]\[\033[38;5;7m\]\w\[$prompt_reset\]\[\033[38;5;12m\]>\[$prompt_reset\]\[\033[38;5;10m\]\\$\[$prompt_reset\]\[\033[38;5;15m\] \[$prompt_reset\]"
-fi
-unset prompt_reset
-
-# start bash-git-promp if available
-if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
-  GIT_PROMPT_ONLY_IN_REPO=1
-  GIT_PROMPT_SHOW_UPSTREAM=1
-  GIT_PROMPT_THEME=Single_line_NoExitState
-  source "$HOME/.bash-git-prompt/gitprompt.sh"
-fi
-
-
-#
-# Key bindings
-#
-
-# Use emacs key bindings
-set -o emacs
-
-# Ctrl-Backspace / Ctrl-H: delete word backward
-bind '"\C-h": backward-kill-word'
-
-# Ctrl-R: reverse incremental history search
-bind '"\C-r": reverse-search-history'
-
-# Ctrl-Left / Ctrl-Right: word navigation
-bind '"\e[1;5D": backward-word'
-bind '"\e[1;5C": forward-word'
-
-
-# start tmux automatically - not the best idea after all
-#if [ -x "$(command -v tmux)" ] && [ -z "${TMUX}" ]; then
-#    exec tmux new-session -A -s ${USER} >/dev/null 2>&1
-#fi
-
-# enable forward search with Ctrl-S
-stty -ixon
-
-#
+# =============================================================================
 # Functions
-#
+# =============================================================================
 
 # Generate passwords
 genpass() {
@@ -214,6 +209,10 @@ ccat() {
   sed -E '/^[[:space:]]*#/d; /^[[:space:]]*$/d' "$@"
 }
 
+# =============================================================================
+# Experimental
+# =============================================================================
+
 # set cursor
 # 0 -> blinking block
 # 1 -> blinking block (default)
@@ -223,3 +222,33 @@ ccat() {
 # 5 -> blinking bar (xterm)
 # 6 -> steady bar (xterm)
 #printf '\033[2 q'
+
+# start tmux automatically - not the best idea after all
+#if [ -x "$(command -v tmux)" ] && [ -z "${TMUX}" ]; then
+#    exec tmux new-session -A -s ${USER} >/dev/null 2>&1
+#fi
+
+# =============================================================================
+# Local overrides
+# =============================================================================
+
+# =============================================================================
+# Plugins
+# =============================================================================
+
+# bash-git-prompt
+if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
+  GIT_PROMPT_ONLY_IN_REPO=1
+  GIT_PROMPT_SHOW_UPSTREAM=1
+  GIT_PROMPT_THEME=Single_line_NoExitState
+  source "$HOME/.bash-git-prompt/gitprompt.sh"
+fi
+
+# =============================================================================
+# Cleanup
+# =============================================================================
+
+unset less_state_dir
+unset is_linux is_macos is_freebsd eza_common \
+  git_compl_file docker_compl_file kubectl_compl_file terraform_compl_file
+unset prompt_reset
