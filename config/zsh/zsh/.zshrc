@@ -209,6 +209,7 @@ groot() {
   root=$(git rev-parse --show-toplevel) || return
   cd -- "$root"
 }
+alias gcd='groot'
 
 # Generate passwords
 genpass() {

@@ -182,6 +182,14 @@ unset git_compl_file docker_compl_file kubectl_compl_file terraform_compl_file
 # Functions
 # =============================================================================
 
+# Go to the Git repository root
+groot() {
+  local root
+  root=$(git rev-parse --show-toplevel) || return
+  cd -- "$root"
+}
+alias gcd='groot'
+
 # Generate passwords
 genpass() {
   if (( $# > 1 )); then
