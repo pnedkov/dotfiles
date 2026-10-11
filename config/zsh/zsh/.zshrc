@@ -37,6 +37,9 @@ export LESSHISTFILE="$less_state_dir/history"
 export MANPAGER="less -R --use-color -Dd+r -Du+c"
 export MANROFFOPT="-P -c"
 
+# Cleanup
+unset less_state_dir
+
 # =============================================================================
 # Shell settings
 # =============================================================================
@@ -67,6 +70,9 @@ zstyle ':completion:*' cache-path "$zsh_cache_dir/zcompcache"
 zstyle ':completion:*' special-dirs true
 autoload -Uz compinit
 compinit -d "$zsh_cache_dir/zcompdump"
+
+# Cleanup
+unset zsh_state_dir zsh_cache_dir
 
 # =============================================================================
 # Aliases
@@ -264,6 +270,9 @@ for _file in "${XDG_CONFIG_HOME:-$HOME/.config}"/zsh-local/*.zsh(N); do
   source "$_file"
 done
 
+# Cleanup
+unset _file
+
 # =============================================================================
 # Plugins
 # =============================================================================
@@ -288,10 +297,6 @@ if [[ -n $plugin_dir ]]; then
   done
 fi
 
-# =============================================================================
 # Cleanup
-# =============================================================================
-
+unset zsh_plugins plugin_dir plugin plugin_file
 unset is_linux is_macos is_freebsd
-unset zsh_plugins plugin_dir plugin plugin_file zsh_cache_dir zsh_state_dir less_state_dir
-unset _file

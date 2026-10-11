@@ -36,6 +36,9 @@ export MANPAGER="less -R --use-color -Dd+r -Du+b"
 export MANROFFOPT="-P -c"
 export NPM_CONFIG_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/npm"
 
+# Cleanup
+unset less_state_dir
+
 # =============================================================================
 # Shell settings
 # =============================================================================
@@ -47,6 +50,9 @@ if (( EUID == 0 )); then
 else
   PS1="\[\033[38;5;12m\][\[$prompt_reset\]\[\033[38;5;10m\]\u\[$prompt_reset\]\[\033[38;5;12m\]@\[$prompt_reset\]\[\033[38;5;7m\]\h\[$prompt_reset\]\[\033[38;5;12m\]]\[$prompt_reset\]\[\033[38;5;15m\]: \[$prompt_reset\]\[\033[38;5;7m\]\w\[$prompt_reset\]\[\033[38;5;12m\]>\[$prompt_reset\]\[\033[38;5;10m\]\\$\[$prompt_reset\]\[\033[38;5;15m\] \[$prompt_reset\]"
 fi
+
+# Cleanup
+unset prompt_reset
 
 # =============================================================================
 # Aliases
@@ -169,6 +175,9 @@ if has bat; then
   alias cat='bat -p'
 fi
 
+# Cleanup
+unset git_compl_file docker_compl_file kubectl_compl_file terraform_compl_file
+
 # =============================================================================
 # Functions
 # =============================================================================
@@ -237,11 +246,5 @@ if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
   source "$HOME/.bash-git-prompt/gitprompt.sh"
 fi
 
-# =============================================================================
 # Cleanup
-# =============================================================================
-
-unset less_state_dir
-unset is_linux is_macos is_freebsd \
-  git_compl_file docker_compl_file kubectl_compl_file terraform_compl_file
-unset prompt_reset
+unset is_linux is_macos is_freebsd
