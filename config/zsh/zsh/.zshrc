@@ -5,6 +5,10 @@
 # Return if non-interactive
 [[ -o interactive ]] || return
 
+# =============================================================================
+# Environment
+# =============================================================================
+
 # Supported OS
 case "$(uname -s)" in
   Linux)   is_linux=1 ;; # Arch btw
@@ -27,11 +31,15 @@ if [[ ! -d "$zsh_cache_dir/zcompcache" || ! -d "$zsh_state_dir" || ! -d "$less_s
   mkdir -p -m 700 -- "$zsh_cache_dir/zcompcache" "$zsh_state_dir" "$less_state_dir"
 fi
 
-# Enable completions
-zstyle ':completion:*' menu select
-zstyle ':completion:*' cache-path "$zsh_cache_dir/zcompcache"
-autoload -Uz compinit
-compinit -d "$zsh_cache_dir/zcompdump"
+# Exports
+export LESS='-Q -F -R --use-color -Dd+r$Du+c$'
+export LESSHISTFILE="$less_state_dir/history"
+export MANPAGER="less -R --use-color -Dd+r -Du+c"
+export MANROFFOPT="-P -c"
+
+# =============================================================================
+# Shell settings
+# =============================================================================
 
 # Turn off all beeps
 unsetopt BEEP
@@ -52,16 +60,18 @@ setopt HIST_REDUCE_BLANKS     # automatically removes superfluous whitespace
 setopt HIST_FIND_NO_DUPS      # prevents the display of duplicate history entries
 unsetopt SHARE_HISTORY        # no live history imports
 
-# Exports
-export LESS='-Q -F -R --use-color -Dd+r$Du+c$'
-export LESSHISTFILE="$less_state_dir/history"
-export MANPAGER="less -R --use-color -Dd+r -Du+c"
-export MANROFFOPT="-P -c"
-(( $+commands[vim] )) && export EDITOR=vim
+# Enable completions
+zstyle ':completion:*' menu select
+zstyle ':completion:*' cache-path "$zsh_cache_dir/zcompcache"
+# Include . and .. in the list of possible completions
+zstyle ':completion:*' special-dirs true
+autoload -Uz compinit
+compinit -d "$zsh_cache_dir/zcompdump"
 
-#
+# =============================================================================
 # Aliases
-#
+# =============================================================================
+
 alias ..='cd ..'
 alias ls='ls --color=auto'
 alias l='ls'
@@ -72,12 +82,39 @@ alias lld='ls -ld'
 alias lln='ls -ln'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
-(( $+commands[tree] )) && alias tree='tree -I .git'
 (( ${+is_linux} )) && alias dmesg='dmesg -L=always'
+
+# =============================================================================
+# Keybindings
+# =============================================================================
+
+# Use emacs key bindings
+bindkey -e
+
+# [Ctrl-Delete] - delete whole word backwards
+bindkey '^H' backward-kill-word
+
+#bindkey "^[[A" history-search-backward
+#bindkey "^[[B" history-search-forward
+bindkey '^R' history-incremental-search-backward
+
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
+
+# =============================================================================
+# Tools
+# =============================================================================
+
+# tree
+(( $+commands[tree] )) && alias tree='tree -I .git'
+
+# ifconfig
 if (( $+commands[ifconfig] )); then
   alias ip4="ifconfig | grep 'inet '"
   alias ip6="ifconfig | grep 'inet6 '"
 fi
+
+# Homebrew
 (( ${+is_macos} )) && (( $+commands[brew] )) && alias bup='brew update && brew upgrade'
 
 # bat
@@ -97,20 +134,21 @@ if (( $+commands[eza] )); then
   alias et="eza --tree --git-ignore"
 fi
 
-# neovim
+# Editors
+(( $+commands[vim] )) && export EDITOR=vim
 if (( $+commands[nvim] )); then
   alias vimdiff='nvim -d'
   export EDITOR=nvim
 fi
 [[ -n $EDITOR ]] && export VISUAL=$EDITOR
 
-# aws
+# AWS
 (( $+commands[aws] )) && alias whoaws='aws sts get-caller-identity'
 
-# git
+# Git
 (( $+commands[git] )) && alias g='git'
 
-# docker
+# Docker
 if (( $+commands[docker] )); then
   alias d='docker'
 
@@ -130,30 +168,10 @@ fi
 # kubectl
 (( $+commands[kubectl] )) && alias k='kubectl'
 
-# terraform
+# Terraform
 (( $+commands[terraform] )) && alias t='terraform'
 
-# include . and .. in the list of possible completions
-zstyle ':completion:*' special-dirs true
-
-#
-# Key bindings
-#
-
-# Use emacs key bindings
-bindkey -e
-
-# [Ctrl-Delete] - delete whole word backwards
-bindkey '^H' backward-kill-word
-
-#bindkey "^[[A" history-search-backward
-#bindkey "^[[B" history-search-forward
-bindkey '^R' history-incremental-search-backward
-
-bindkey '^[[1;5C' forward-word
-bindkey '^[[1;5D' backward-word
-
-# fzf
+# fzf (install its keybindings after the baseline bindings above)
 if (( $+commands[fzf] )); then
   if (( $+commands[bat] && $+commands[eza] )); then
     export FZF_CTRL_T_OPTS="
@@ -182,34 +200,9 @@ if (( $+commands[starship] )); then
   eval "$(starship init zsh)"
 fi
 
-#
-# zsh plugins
-#
-zsh_plugins=(
-  zsh-autosuggestions
-  zsh-syntax-highlighting
-)
-
-case 1 in
-  $(( ${+is_macos} ))) plugin_dir="${HOMEBREW_PREFIX:-/opt/homebrew}/share" ;;
-  $(( ${+is_linux} ))) plugin_dir='/usr/share/zsh/plugins' ;;
-  $(( ${+is_freebsd} ))) plugin_dir='/usr/local/share' ;;
-  *) plugin_dir='' ;;
-esac
-
-if [[ -n $plugin_dir ]]; then
-  for plugin in $zsh_plugins; do
-    plugin_file="$plugin_dir/$plugin/$plugin.zsh"
-    [[ -r $plugin_file ]] && source "$plugin_file"
-  done
-fi
-
-unset eza_common is_linux is_macos is_freebsd
-unset zsh_plugins plugin_dir plugin plugin_file zsh_cache_dir zsh_state_dir less_state_dir
-
-#
+# =============================================================================
 # Functions
-#
+# =============================================================================
 
 # Go to the Git repository root
 groot() {
@@ -247,13 +240,12 @@ ccat() {
   sed -E '/^[[:space:]]*#/d; /^[[:space:]]*$/d' "$@"
 }
 
-#
+# =============================================================================
 # Experimental
-#
+# =============================================================================
 
 # Enable forward search with Ctrl-S
 #stty -ixon
-
 
 # Set cursor
 # 0 -> blinking block
@@ -270,10 +262,43 @@ ccat() {
 #    exec tmux new-session -A -s ${USER} >/dev/null 2>&1
 #fi
 
-#
-# Additional configuration
-#
+# =============================================================================
+# Local overrides
+# =============================================================================
+
+# Apply machine-specific settings before plugins initialize.
 for _file in "${XDG_CONFIG_HOME:-$HOME/.config}"/zsh-local/*.zsh(N); do
   source "$_file"
 done
+
+# =============================================================================
+# Plugins
+# =============================================================================
+
+# Load after tools and local widgets, with syntax highlighting last.
+zsh_plugins=(
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
+
+case 1 in
+  $(( ${+is_macos} ))) plugin_dir="${HOMEBREW_PREFIX:-/opt/homebrew}/share" ;;
+  $(( ${+is_linux} ))) plugin_dir='/usr/share/zsh/plugins' ;;
+  $(( ${+is_freebsd} ))) plugin_dir='/usr/local/share' ;;
+  *) plugin_dir='' ;;
+esac
+
+if [[ -n $plugin_dir ]]; then
+  for plugin in $zsh_plugins; do
+    plugin_file="$plugin_dir/$plugin/$plugin.zsh"
+    [[ -r $plugin_file ]] && source "$plugin_file"
+  done
+fi
+
+# =============================================================================
+# Cleanup
+# =============================================================================
+
+unset eza_common is_linux is_macos is_freebsd
+unset zsh_plugins plugin_dir plugin plugin_file zsh_cache_dir zsh_state_dir less_state_dir
 unset _file

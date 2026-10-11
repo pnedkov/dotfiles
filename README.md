@@ -91,7 +91,8 @@ Letters can appear anywhere, without hyphens, and apply to all selected packages
 
 - **Zsh local configuration:** Put machine-specific settings in
   `$XDG_CONFIG_HOME/zsh-local/*.zsh` (defaults to `~/.config/zsh-local/*.zsh`).
-  These files load after the main configuration and can override aliases and functions.
+  These files load after shared settings and tools, before plugins initialize,
+  and can override aliases and functions.
 
 - **Zsh fzf previews:** `Ctrl-T` previews files with `bat` and directories with
   `eza`; `Alt-C` previews directory contents. Press `Ctrl-/` inside either picker
