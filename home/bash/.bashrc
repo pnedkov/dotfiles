@@ -99,14 +99,10 @@ fi
 if has eza; then
   eza_common='--icons --time-style "+%Y %b %e %H:%M"'
 
-  alias ls="e"
-  alias ll="el"
-  alias lla="ela"
-  alias llt="et"
-  alias e="eza -g $eza_common"
-  alias el="eza -lg $eza_common"
-  alias ela="eza -lga $eza_common"
-  alias et="eza --tree --git-ignore"
+  alias ls="eza -g $eza_common"
+  alias ll="eza -lg $eza_common"
+  alias lla="eza -lga $eza_common"
+  alias llt="eza --tree --git-ignore"
 fi
 
 # pacman
