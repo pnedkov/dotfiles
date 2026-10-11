@@ -128,6 +128,7 @@ if (( $+commands[eza] )); then
   alias ll="eza -lg $eza_common"
   alias lla="eza -lga $eza_common"
   alias llt="eza --tree --git-ignore"
+  alias llta="eza --tree --git-ignore -a"
 fi
 
 # Editors
