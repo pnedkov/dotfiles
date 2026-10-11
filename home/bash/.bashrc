@@ -57,9 +57,9 @@ alias ls='ls --color=auto'
 alias l='ls'
 alias la='ls -a'
 alias ll='ls -l'
-alias lla='ls -la'
-alias lld='ls -ld'
-alias lln='ls -ln'
+alias lla='ll -a'
+alias lld='ll -d'
+alias lln='ll -n'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip -color=auto'
@@ -97,13 +97,9 @@ fi
 
 # eza
 if has eza; then
-  eza_common='--icons --time-style "+%Y %b %e %H:%M"'
-
-  alias ls="eza -g $eza_common"
-  alias ll="eza -lg $eza_common"
-  alias lla="eza -lga $eza_common"
-  alias llt="eza --tree --git-ignore"
-  alias llta="eza --tree --git-ignore -a"
+  alias ls='eza -g --icons --time-style "+%Y %b %e %H:%M"'
+  alias llt='eza --tree --git-ignore'
+  alias llta='llt -a'
 fi
 
 # pacman
@@ -246,6 +242,6 @@ fi
 # =============================================================================
 
 unset less_state_dir
-unset is_linux is_macos is_freebsd eza_common \
+unset is_linux is_macos is_freebsd \
   git_compl_file docker_compl_file kubectl_compl_file terraform_compl_file
 unset prompt_reset

@@ -77,9 +77,9 @@ alias ls='ls --color=auto'
 alias l='ls'
 alias la='ls -a'
 alias ll='ls -l'
-alias lla='ls -la'
-alias lld='ls -ld'
-alias lln='ls -ln'
+alias lla='ll -a'
+alias lld='ll -d'
+alias lln='ll -n'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 (( ${+is_linux} )) && alias dmesg='dmesg -L=always'
@@ -122,13 +122,9 @@ fi
 
 # eza
 if (( $+commands[eza] )); then
-  local eza_common='--icons --time-style "+%Y %b %e %H:%M"'
-
-  alias ls="eza -g $eza_common"
-  alias ll="eza -lg $eza_common"
-  alias lla="eza -lga $eza_common"
-  alias llt="eza --tree --git-ignore"
-  alias llta="eza --tree --git-ignore -a"
+  alias ls='eza -g --icons --time-style "+%Y %b %e %H:%M"'
+  alias llt='eza --tree --git-ignore'
+  alias llta='llt -a'
 fi
 
 # Editors
@@ -296,6 +292,6 @@ fi
 # Cleanup
 # =============================================================================
 
-unset eza_common is_linux is_macos is_freebsd
+unset is_linux is_macos is_freebsd
 unset zsh_plugins plugin_dir plugin plugin_file zsh_cache_dir zsh_state_dir less_state_dir
 unset _file
