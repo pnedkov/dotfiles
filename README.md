@@ -8,15 +8,12 @@ Deployment requires GNU Make and Stow.
 
 **macOS (Homebrew)**
 
-```sh
-brew install bash bat eza fd fzf git git-delta ripgrep starship stow tmux tree vim watch \
-  zsh zsh-autosuggestions zsh-syntax-highlighting
-```
-
-Use a Nerd Font for prompt and status-bar icons. Optional macOS terminal setup:
+After cloning the repository, run these commands from its root to install or
+check the dependencies listed in [`Brewfile`](Brewfile):
 
 ```sh
-brew install --cask ghostty font-meslo-lg-nerd-font
+brew bundle install   # Install or upgrade dependencies
+brew bundle check     # Check for missing or outdated dependencies
 ```
 
 **Arch Linux**

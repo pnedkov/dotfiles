@@ -1,0 +1,22 @@
+# Command-line dependencies.
+brew "bash"
+brew "bat"
+brew "eza"
+brew "fd"
+brew "fzf"
+brew "git"
+brew "git-delta"
+brew "neovim"
+brew "ripgrep"
+brew "starship"
+brew "stow"
+brew "tmux"
+brew "tree"
+brew "vim"
+brew "watch"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+
+# Terminal and font.
+cask "ghostty"
+cask "font-meslo-lg-nerd-font"
