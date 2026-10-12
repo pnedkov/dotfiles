@@ -78,9 +78,6 @@ alias ip='ip -color=auto'
 # Use emacs key bindings
 set -o emacs
 
-# Ctrl-Backspace / Ctrl-H: delete word backward
-bind '"\C-h": backward-kill-word'
-
 # Ctrl-R: reverse incremental history search
 bind '"\C-r": reverse-search-history'
 

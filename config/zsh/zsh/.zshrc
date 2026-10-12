@@ -97,9 +97,6 @@ alias diff='diff --color=auto'
 # Use emacs key bindings
 bindkey -e
 
-# [Ctrl-Delete] - delete whole word backwards
-bindkey '^H' backward-kill-word
-
 #bindkey "^[[A" history-search-backward
 #bindkey "^[[B" history-search-forward
 bindkey '^R' history-incremental-search-backward
