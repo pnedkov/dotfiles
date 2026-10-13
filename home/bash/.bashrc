@@ -92,12 +92,6 @@ stty -ixon
 # Tools
 # =============================================================================
 
-# ifconfig
-if has ifconfig; then
-  alias ip4="ifconfig | grep 'inet '"
-  alias ip6="ifconfig | grep 'inet6 '"
-fi
-
 # eza
 if has eza; then
   alias ls='eza -g --icons --time-style "+%Y %b %e %H:%M"'
@@ -178,6 +172,75 @@ unset git_compl_file docker_compl_file kubectl_compl_file terraform_compl_file
 # =============================================================================
 # Functions
 # =============================================================================
+
+# Show IPv4 addresses with interface names and CIDR prefixes
+ip4() {
+  if type -P ip >/dev/null; then
+    command ip -o -4 -color=never address show |
+      awk '$3 == "inet" { printf "%-12s %s\n", $2, $4 }'
+  elif type -P ifconfig >/dev/null; then
+    command ifconfig | awk '
+      function prefix_length(mask, value, i, octets, bits) {
+        # Convert hexadecimal or dotted-decimal netmasks to an integer.
+        if (mask ~ /^0x/) {
+          for (i = 3; i <= length(mask); i++)
+            value = value * 16 + index("0123456789abcdef", tolower(substr(mask, i, 1))) - 1
+        } else {
+          split(mask, octets, /[.]/)
+          for (i = 1; i <= 4; i++) value = value * 256 + octets[i]
+        }
+        while (value) {
+          bits += value % 2
+          value = int(value / 2)
+        }
+        return bits + 0
+      }
+      /^[^[:space:]]/ {
+        iface = $1
+        sub(/:$/, "", iface)
+      }
+      $1 == "inet" {
+        for (i = 3; i < NF; i++) {
+          if ($i == "netmask") {
+            printf "%-12s %s/%d\n", iface, $2, prefix_length($(i + 1))
+            break
+          }
+        }
+      }
+    '
+  else
+    printf '%s\n' 'ip4: neither ip nor ifconfig is available.' >&2
+    return 1
+  fi
+}
+
+# Show IPv6 addresses with interface names and CIDR prefixes
+ip6() {
+  if type -P ip >/dev/null; then
+    command ip -o -6 -color=never address show |
+      awk '$3 == "inet6" { printf "%-12s %s\n", $2, $4 }'
+  elif type -P ifconfig >/dev/null; then
+    command ifconfig | awk '
+      /^[^[:space:]]/ {
+        iface = $1
+        sub(/:$/, "", iface)
+      }
+      $1 == "inet6" {
+        address = $2
+        sub(/%.*/, "", address)
+        for (i = 3; i < NF; i++) {
+          if ($i == "prefixlen") {
+            printf "%-12s %s/%d\n", iface, address, $(i + 1)
+            break
+          }
+        }
+      }
+    '
+  else
+    printf '%s\n' 'ip6: neither ip nor ifconfig is available.' >&2
+    return 1
+  fi
+}
 
 # Go to the Git repository root
 groot() {
