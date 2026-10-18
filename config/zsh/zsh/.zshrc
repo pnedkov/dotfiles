@@ -199,6 +199,7 @@ ip4() {
   if (( $+commands[ip] )); then
     command ip -o -4 -color=never address show |
       awk '$3 == "inet" { printf "%-12s %s\n", $2, $4 }'
+    return "$(( pipestatus[2] ? pipestatus[2] : pipestatus[1] ))"
   elif (( $+commands[ifconfig] )); then
     command ifconfig | awk '
       function prefix_length(mask, value, i, octets, bits) {
@@ -229,6 +230,7 @@ ip4() {
         }
       }
     '
+    return "$(( pipestatus[2] ? pipestatus[2] : pipestatus[1] ))"
   else
     printf '%s\n' 'ip4: neither ip nor ifconfig is available.' >&2
     return 1
@@ -240,6 +242,7 @@ ip6() {
   if (( $+commands[ip] )); then
     command ip -o -6 -color=never address show |
       awk '$3 == "inet6" { printf "%-12s %s\n", $2, $4 }'
+    return "$(( pipestatus[2] ? pipestatus[2] : pipestatus[1] ))"
   elif (( $+commands[ifconfig] )); then
     command ifconfig | awk '
       /^[^[:space:]]/ {
@@ -257,6 +260,7 @@ ip6() {
         }
       }
     '
+    return "$(( pipestatus[2] ? pipestatus[2] : pipestatus[1] ))"
   else
     printf '%s\n' 'ip6: neither ip nor ifconfig is available.' >&2
     return 1
