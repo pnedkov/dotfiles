@@ -137,8 +137,13 @@
 		git config --get \"alias.$1\"; \
 	}; f"
 
+[column]
+	ui = auto
+[commit]
+	verbose = true
 [diff]
 	tool = vimdiff
+	algorithm = histogram
 [difftool]
 	prompt = false
 [core]
@@ -164,6 +169,9 @@
 	autoStash = true
 [branch]
 	autosetuprebase = always
+	sort = -committerdate
+[tag]
+	sort = version:refname
 [pull]
 	rebase = true
 [fetch]
