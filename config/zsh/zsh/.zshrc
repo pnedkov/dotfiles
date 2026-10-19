@@ -47,6 +47,9 @@ unset less_state_dir
 # Turn off all beeps
 unsetopt BEEP
 
+# Allow comments in interactive commands
+setopt INTERACTIVE_COMMENTS
+
 # History settings
 HISTFILE="$zsh_state_dir/history" # History savefile location
 HISTSIZE=1000000              # Number of history items to save in memory
