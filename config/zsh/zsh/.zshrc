@@ -10,10 +10,10 @@
 # =============================================================================
 
 # Supported OS
-case "$(uname -s)" in
-  Linux)   is_linux=1 ;; # Arch btw
-  Darwin)  is_macos=1 ;;
-  FreeBSD) is_freebsd=1 ;;
+case $OSTYPE in
+  linux*)   is_linux=1 ;; # Arch btw
+  darwin*)  is_macos=1 ;;
+  freebsd*) is_freebsd=1 ;;
 esac
 
 # Keep PATH entries unique, preserving the first occurrence
