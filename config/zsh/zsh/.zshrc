@@ -71,6 +71,9 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' cache-path "$zsh_cache_dir/zcompcache"
 # Try case-sensitive completion first, then ignore case
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
+# Group completion candidates by type with bold headings
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:descriptions' format '%B%d%b'
 # Include . and .. in the list of possible completions
 zstyle ':completion:*' special-dirs true
 autoload -Uz compinit
