@@ -43,6 +43,9 @@ unset less_state_dir
 # Shell settings
 # =============================================================================
 
+# Preserve history from other Bash sessions when saving on exit
+shopt -s histappend
+
 # set the primary prompt (PS1)
 prompt_reset=$(tput sgr0)
 if (( EUID == 0 )); then
