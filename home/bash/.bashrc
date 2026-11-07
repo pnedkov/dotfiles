@@ -86,7 +86,7 @@ bind '"\e[1;5D": backward-word'
 bind '"\e[1;5C": forward-word'
 
 # enable forward search with Ctrl-S
-stty -ixon
+[[ -t 0 ]] && stty -ixon
 
 # =============================================================================
 # Tools
